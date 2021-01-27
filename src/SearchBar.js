@@ -1,6 +1,4 @@
 import React, { useRef } from "react";
-import { Slider } from 'rsuite';
-import 'rsuite/lib/styles/index.less';
 
 const ORS_KEY = process.env.REACT_APP_ORS_KEY;
 const openrouteservice = require("openrouteservice-js");
