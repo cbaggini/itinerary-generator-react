@@ -1,4 +1,7 @@
-import React, {useRef} from "react";
+import React, { useRef } from "react";
+import { Slider } from 'rsuite';
+import 'rsuite/lib/styles/index.less';
+
 const ORS_KEY = process.env.REACT_APP_ORS_KEY;
 const openrouteservice = require("openrouteservice-js");
 
@@ -6,7 +9,7 @@ const Geocode = new openrouteservice.Geocode({
   api_key: ORS_KEY
 });
 
-const SearchBar = ({setDataFrom, setDataTo}) => {
+const SearchBar = ({setDataFrom, setDataTo, setRadius, radius}) => {
 	const from = useRef('initial value');
 	const whereTo = useRef('initial value');
 
@@ -27,6 +30,12 @@ const SearchBar = ({setDataFrom, setDataTo}) => {
 		<>
 		<input type="text" ref={from} placeholder="from"></input>
 		<input type="text" ref={whereTo} placeholder="to"></input>
+		<input 
+			type="range" className="slider"
+			min="1" max="30" 
+			onChange={(e) => setRadius(e.target.value)}
+			step="1"/>
+		<p>{radius} kilometers</p>
 		<button type="button" onClick={search}>Search</button>
 		</>
 	);
