@@ -1,11 +1,20 @@
 import './App.css';
+import React, {useState} from "react";
+import Footer from './Footer';
+import Map from './Map';
+import SearchBar from './SearchBar';
 
 function App() {
-  return (
-    <div className="App">
-      <div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
-    </div>
-  );
+	const [dataFrom, setDataFrom] = useState({});
+	const [dataTo, setDataTo] = useState({});
+
+	return (
+		<div className="App">
+			<SearchBar setDataFrom={setDataFrom} setDataTo={setDataTo}/>
+			<Map dataFrom={dataFrom} dataTo={dataTo} />
+			<Footer/>
+		</div>
+	);
 }
 
 export default App;
