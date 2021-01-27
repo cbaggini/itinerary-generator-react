@@ -9,7 +9,6 @@ const Directions = new openrouteservice.Directions({
 
 const Map = ({dataFrom, dataTo}) => {
 	const [route, setRoute] = useState({});
-	const limeOptions = { color: 'lime' };
 
 	useEffect(() => {
 		if (dataFrom.features && dataTo.features) {
@@ -26,10 +25,11 @@ const Map = ({dataFrom, dataTo}) => {
 			});
 		}
 		
-	}, [dataFrom, dataTo])
-	if(route.features) {
-		console.log(route.features[0].geometry.coordinates);
-	}
+	}, [dataFrom, dataTo]);
+
+	// if(route.features) {
+	// 	console.log(route.features[0].geometry.coordinates);
+	// }
 	
 	
 	return (
