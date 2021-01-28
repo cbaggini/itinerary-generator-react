@@ -11,7 +11,7 @@ function App() {
 
 	return (
 		<div className="App">
-			<SearchBar setDataFrom={setDataFrom} setDataTo={setDataTo} radius={radius} setRadius={setRadius}/>
+			<SearchBar setDataFrom={setDataFrom} setDataTo={setDataTo} setRadius={setRadius}/>
 			<Map dataFrom={dataFrom} dataTo={dataTo} radius={radius}/>
 			<Footer/>
 		</div>

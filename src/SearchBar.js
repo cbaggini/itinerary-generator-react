@@ -7,7 +7,7 @@ const Geocode = new openrouteservice.Geocode({
   api_key: ORS_KEY
 });
 
-const SearchBar = ({setDataFrom, setDataTo, setRadius, radius}) => {
+const SearchBar = ({setDataFrom, setDataTo, setRadius}) => {
 	const from = useRef('initial value');
 	const whereTo = useRef('initial value');
 
@@ -28,12 +28,8 @@ const SearchBar = ({setDataFrom, setDataTo, setRadius, radius}) => {
 		<>
 		<input type="text" ref={from} placeholder="from"></input>
 		<input type="text" ref={whereTo} placeholder="to"></input>
-		<input 
-			type="range" className="slider"
-			min="1" max="30" 
-			onChange={(e) => setRadius(e.target.value)}
-			step="1"/>
-		<p>{radius} kilometers</p>
+		<label htmlFor="buffer">Kilometers (between 1 and 30):</label>
+		<input type="number" id="buffer" name="buffer" min="1" max="30" onChange={(e) => setRadius(e.target.value)}/> 
 		<button type="button" onClick={search}>Search</button>
 		</>
 	);

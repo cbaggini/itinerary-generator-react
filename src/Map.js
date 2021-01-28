@@ -4,6 +4,7 @@ import * as turf from '@turf/turf';
 
 const openrouteservice = require("openrouteservice-js");
 const ORS_KEY = process.env.REACT_APP_ORS_KEY;
+const OTM_KEY = process.env.REACT_APP_OTM_KEY;
 const Directions = new openrouteservice.Directions({
 			api_key: ORS_KEY
 		});
@@ -38,16 +39,22 @@ const Map = ({dataFrom, dataTo, radius}) => {
 	}, [dataFrom, dataTo]);
 
 	useEffect(() => {
-		if (route.features) {
+		if (route.features && radius) {
 			const turfRoute = turf.lineString(route.features[0].geometry.coordinates.map(el => [el[1], el[0]]), { name: 'buffer' });
 			const buffered = turf.buffer(turfRoute, radius, {units: "kilometers"});
 			setBuffer(buffered);
 		}
 	}, [route, radius])
 
-	// if(buffer.geometry) {
-	// 	console.log(buffer.geometry.coordinates)
-	// }
+	useEffect(() => {
+		if (buffer.geometry) {
+			const bbox = turf.bbox(buffer);
+			console.log(bbox)
+			fetch(`http://api.opentripmap.com/0.1/ru/places/bbox?lon_min=${bbox[1]}&lat_min=${bbox[0]}&lon_max=${bbox[3]}&lat_max=${bbox[2]}&kinds=churches&format=geojson&apikey=${OTM_KEY}`)
+			.then(response => response.json())
+			.then(data => console.log(data))
+		}
+	}, [buffer])
 	
 	return (
 		<MapContainer center={[56, -1]} zoom={5} scrollWheelZoom={false}>
