@@ -23,9 +23,9 @@ const Map = ({dataFrom, dataTo, radius, categories}) => {
 	const greenOptions = { color: 'green' };
 	const redOptions = { color: 'red'};
 
-	// if (dataFrom.features) {
-	// 	console.log(dataFrom)
-	// }
+	if (route.features) {
+		console.log(route)
+	}
 
 	useEffect(() => {
 		if (dataFrom.features && dataTo.features) {

@@ -13,13 +13,15 @@ const SearchBar = ({setDataFrom, setDataTo, setRadius, setCategories, categories
 		// Search for origin coordinates
 		fetch(`https://api.openrouteservice.org/geocode/search?api_key=${ORS_KEY}&text=${from.current.value.replace(/ /g,'-')}`)
 			.then(response => response.json())
-			.then(data => {setDataFrom(data);})
+			.then(data => {setDataFrom(data);
+				fetch(`https://api.openrouteservice.org/geocode/search?api_key=${ORS_KEY}&text=${whereTo.current.value.replace(/ /g,'-')}`)
+				.then(response => response.json())
+				.then(data => {setDataTo(data);})
+				.catch((err) => {console.log("An error occurred: " + err);});
+			})
 			.catch((err) => {console.log("An error occurred: " + err);});
 		//Search for destination coordinates
-		fetch(`https://api.openrouteservice.org/geocode/search?api_key=${ORS_KEY}&text=${whereTo.current.value.replace(/ /g,'-')}`)
-			.then(response => response.json())
-			.then(data => {setDataTo(data);})
-			.catch((err) => {console.log("An error occurred: " + err);});
+		
 	}
 
 	const toggleCategories = (e) => {
