@@ -23,9 +23,9 @@ const Map = ({allData, radius, categories}) => {
 	const greenOptions = { color: 'green' };
 	const redOptions = { color: 'red'};
 
-	// if (route.features) {
-	// 	console.log(route)
-	// }
+	if (route.features) {
+		console.log(route)
+	}
 
 	useEffect(() => {
 		if (allData.dataFrom.features && allData.dataTo.features) {
@@ -62,7 +62,7 @@ const Map = ({allData, radius, categories}) => {
 			.then(data => {
 				// Select points in buffer area and with high popularity score
 				const points = data.features.filter(el => turf.booleanPointInPolygon(turf.point([el.geometry.coordinates[1], el.geometry.coordinates[0]]), bufferPolygon) && el.properties.rate === 7)
-				console.log(points)
+				// console.log(points)
 				setPoi(points);
 				// split route in n segments, each taking 6 hours (get array of points)
 				// find closest poi to each point and save them to state variable that will be drawn
