@@ -8,11 +8,12 @@ function App() {
 	const [dataFrom, setDataFrom] = useState({});
 	const [dataTo, setDataTo] = useState({});
 	const [radius, setRadius] = useState(5);
+	const [categories, setCategories] = useState([]);
 
 	return (
 		<div className="App">
-			<SearchBar setDataFrom={setDataFrom} setDataTo={setDataTo} setRadius={setRadius}/>
-			<Map dataFrom={dataFrom} dataTo={dataTo} radius={radius}/>
+			<SearchBar setDataFrom={setDataFrom} setDataTo={setDataTo} setRadius={setRadius} setCategories={setCategories} categories={categories}/>
+			<Map dataFrom={dataFrom} dataTo={dataTo} radius={radius} categories={categories}/>
 			<Footer/>
 		</div>
 	);

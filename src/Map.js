@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { MapContainer, TileLayer, Marker, Polyline, Popup, Polygon, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Polyline, CircleMarker, Popup, Polygon, useMap } from 'react-leaflet';
 import * as turf from '@turf/turf';
 
 const openrouteservice = require("openrouteservice-js");
@@ -15,11 +15,17 @@ const AutoZoom = ({ bounds }) => {
 	return null;
 }
 
-const Map = ({dataFrom, dataTo, radius}) => {
+const Map = ({dataFrom, dataTo, radius, categories}) => {
 	const [route, setRoute] = useState({});
 	const [buffer, setBuffer] = useState({});
+	const [poi, setPoi] = useState([]);
 
-	const colorOptions = { color: 'green' }
+	const greenOptions = { color: 'green' };
+	const redOptions = { color: 'red'};
+
+	// if (dataFrom.features) {
+	// 	console.log(dataFrom)
+	// }
 
 	useEffect(() => {
 		if (dataFrom.features && dataTo.features) {
@@ -47,14 +53,24 @@ const Map = ({dataFrom, dataTo, radius}) => {
 	}, [route, radius])
 
 	useEffect(() => {
-		if (buffer.geometry) {
+		if (buffer.geometry && categories.length > 0) {
 			const bbox = turf.bbox(buffer);
-			console.log(bbox)
-			fetch(`http://api.opentripmap.com/0.1/ru/places/bbox?lon_min=${bbox[1]}&lat_min=${bbox[0]}&lon_max=${bbox[3]}&lat_max=${bbox[2]}&kinds=churches&format=geojson&apikey=${OTM_KEY}`)
+			const cats = categories.join('%2C');
+			const bufferPolygon = turf.polygon(buffer.geometry.coordinates)
+			fetch(`http://api.opentripmap.com/0.1/en/places/bbox?lon_min=${bbox[1]}&lat_min=${bbox[0]}&lon_max=${bbox[3]}&lat_max=${bbox[2]}&kinds=${cats}&format=geojson&apikey=${OTM_KEY}`)
 			.then(response => response.json())
-			.then(data => console.log(data))
+			.then(data => {
+				// Select points in buffer area and with high popularity score
+				const points = data.features.filter(el => turf.booleanPointInPolygon(turf.point([el.geometry.coordinates[1], el.geometry.coordinates[0]]), bufferPolygon) && el.properties.rate === 7)
+				console.log(points)
+				setPoi(points);
+				// split route in n segments, each taking 6 hours (get array of points)
+				// find closest poi to each point and save them to state variable that will be drawn
+				// recalculate route to visit suggested pois
+
+			})
 		}
-	}, [buffer])
+	}, [buffer, categories])
 	
 	return (
 		<MapContainer center={[56, -1]} zoom={5} scrollWheelZoom={false}>
@@ -63,16 +79,19 @@ const Map = ({dataFrom, dataTo, radius}) => {
 				url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 			/>
 			{dataFrom.features && <Marker position={[dataFrom.features[0].geometry.coordinates[1], dataFrom.features[0].geometry.coordinates[0]]}>
-				<Popup>
-				A pretty CSS3 popup. <br /> Easily customizable.
-				</Popup>
+				<Popup>{dataFrom.features[0].properties.name}</Popup>
 			</Marker>}
-			{dataTo.features && <Marker position={[dataTo.features[0].geometry.coordinates[1], dataTo.features[0].geometry.coordinates[0]]}/>}
+			{dataTo.features && <Marker position={[dataTo.features[0].geometry.coordinates[1], dataTo.features[0].geometry.coordinates[0]]}>
+				<Popup>{dataTo.features[0].properties.name}</Popup>
+			</Marker>}
 			{route.features && <>
 			<Polyline id="line" positions={route.features[0].geometry.coordinates.map(el => [el[1], el[0]])}/>
 			<AutoZoom bounds={[[route.features[0].bbox[1], route.features[0].bbox[0]], [route.features[0].bbox[3], route.features[0].bbox[2]]]}/>
 			</>}
-			{buffer.geometry && <Polygon pathOptions={colorOptions} positions={buffer.geometry.coordinates} />}
+			{buffer.geometry && <Polygon pathOptions={greenOptions} positions={buffer.geometry.coordinates} />}
+			{poi.length > 0 && poi.map(el => <CircleMarker key={el.properties.xid} pathOptions={redOptions} radius={5} center={[el.geometry.coordinates[1], el.geometry.coordinates[0]] }>
+				<Popup>{el.properties.name}</Popup>
+			</CircleMarker>)}
 		</MapContainer>
 	);
 }
