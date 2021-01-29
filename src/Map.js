@@ -15,7 +15,7 @@ const AutoZoom = ({ bounds }) => {
 	return null;
 }
 
-const Map = ({dataFrom, dataTo, radius, categories}) => {
+const Map = ({allData, radius, categories}) => {
 	const [route, setRoute] = useState({});
 	const [buffer, setBuffer] = useState({});
 	const [poi, setPoi] = useState([]);
@@ -23,14 +23,14 @@ const Map = ({dataFrom, dataTo, radius, categories}) => {
 	const greenOptions = { color: 'green' };
 	const redOptions = { color: 'red'};
 
-	if (route.features) {
-		console.log(route)
-	}
+	// if (route.features) {
+	// 	console.log(route)
+	// }
 
 	useEffect(() => {
-		if (dataFrom.features && dataTo.features) {
+		if (allData.dataFrom.features && allData.dataTo.features) {
 			Directions.calculate({
-				coordinates: [dataFrom.features[0].geometry.coordinates, dataTo.features[0].geometry.coordinates],
+				coordinates: [allData.dataFrom.features[0].geometry.coordinates, allData.dataTo.features[0].geometry.coordinates],
 				profile: 'driving-car',
 				extra_info: ['waytype', 'steepness'],			
 				format: 'geojson'
@@ -42,7 +42,7 @@ const Map = ({dataFrom, dataTo, radius, categories}) => {
 			});
 		}
 		
-	}, [dataFrom, dataTo]);
+	}, [allData]);
 
 	useEffect(() => {
 		if (route.features && radius) {
@@ -67,22 +67,22 @@ const Map = ({dataFrom, dataTo, radius, categories}) => {
 				// split route in n segments, each taking 6 hours (get array of points)
 				// find closest poi to each point and save them to state variable that will be drawn
 				// recalculate route to visit suggested pois
-
+				
 			})
 		}
 	}, [buffer, categories])
-	
+
 	return (
 		<MapContainer center={[56, -1]} zoom={5} scrollWheelZoom={false}>
 			<TileLayer
 				attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 				url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 			/>
-			{dataFrom.features && <Marker position={[dataFrom.features[0].geometry.coordinates[1], dataFrom.features[0].geometry.coordinates[0]]}>
-				<Popup>{dataFrom.features[0].properties.name}</Popup>
+			{allData.dataFrom.features && <Marker position={[allData.dataFrom.features[0].geometry.coordinates[1], allData.dataFrom.features[0].geometry.coordinates[0]]}>
+				<Popup>{allData.dataFrom.features[0].properties.name}</Popup>
 			</Marker>}
-			{dataTo.features && <Marker position={[dataTo.features[0].geometry.coordinates[1], dataTo.features[0].geometry.coordinates[0]]}>
-				<Popup>{dataTo.features[0].properties.name}</Popup>
+			{allData.dataTo.features && <Marker position={[allData.dataTo.features[0].geometry.coordinates[1], allData.dataTo.features[0].geometry.coordinates[0]]}>
+				<Popup>{allData.dataTo.features[0].properties.name}</Popup>
 			</Marker>}
 			{route.features && <>
 			<Polyline id="line" positions={route.features[0].geometry.coordinates.map(el => [el[1], el[0]])}/>

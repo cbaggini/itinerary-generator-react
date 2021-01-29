@@ -2,26 +2,23 @@ import React, { useRef } from "react";
 
 const ORS_KEY = process.env.REACT_APP_ORS_KEY;
 
-const SearchBar = ({setDataFrom, setDataTo, setRadius, setCategories, categories}) => {
+const SearchBar = ({allData, setAllData, setRadius, setCategories, categories}) => {
 	const from = useRef('initial value');
 	const whereTo = useRef('initial value');
 	const buffer = useRef('5');
 	const categoryList = ['religion', 'natural', 'historic', 'cultural', 'architecture'];
 
-	const search = () => {
+	const search = async () => {
 		setRadius(buffer.current.value);
 		// Search for origin coordinates
-		fetch(`https://api.openrouteservice.org/geocode/search?api_key=${ORS_KEY}&text=${from.current.value.replace(/ /g,'-')}`)
+		const dataFrom1 = await fetch(`https://api.openrouteservice.org/geocode/search?api_key=${ORS_KEY}&text=${from.current.value.replace(/ /g,'-')}`)
 			.then(response => response.json())
-			.then(data => {setDataFrom(data);
-				fetch(`https://api.openrouteservice.org/geocode/search?api_key=${ORS_KEY}&text=${whereTo.current.value.replace(/ /g,'-')}`)
-				.then(response => response.json())
-				.then(data => {setDataTo(data);})
-				.catch((err) => {console.log("An error occurred: " + err);});
-			})
 			.catch((err) => {console.log("An error occurred: " + err);});
 		//Search for destination coordinates
-		
+		const dataTo1 = await fetch(`https://api.openrouteservice.org/geocode/search?api_key=${ORS_KEY}&text=${whereTo.current.value.replace(/ /g,'-')}`)
+			.then(response => response.json())
+			.catch((err) => {console.log("An error occurred: " + err);});
+		setAllData({...allData, dataFrom: dataFrom1, dataTo: dataTo1})
 	}
 
 	const toggleCategories = (e) => {
@@ -37,7 +34,6 @@ const SearchBar = ({setDataFrom, setDataTo, setRadius, setCategories, categories
 			setCategories([e.target.value]);
 			e.target.style.backgroundColor = "green";
 		}
-		//console.log(categories);
 	}
 	
 	return (
