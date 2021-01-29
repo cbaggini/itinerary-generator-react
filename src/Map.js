@@ -57,7 +57,7 @@ const Map = ({dataFrom, dataTo, radius, categories}) => {
 			const bbox = turf.bbox(buffer);
 			const cats = categories.join('%2C');
 			const bufferPolygon = turf.polygon(buffer.geometry.coordinates)
-			fetch(`http://api.opentripmap.com/0.1/en/places/bbox?lon_min=${bbox[1]}&lat_min=${bbox[0]}&lon_max=${bbox[3]}&lat_max=${bbox[2]}&kinds=${cats}&format=geojson&apikey=${OTM_KEY}`)
+			fetch(`https://api.opentripmap.com/0.1/en/places/bbox?lon_min=${bbox[1]}&lat_min=${bbox[0]}&lon_max=${bbox[3]}&lat_max=${bbox[2]}&kinds=${cats}&format=geojson&apikey=${OTM_KEY}`)
 			.then(response => response.json())
 			.then(data => {
 				// Select points in buffer area and with high popularity score
