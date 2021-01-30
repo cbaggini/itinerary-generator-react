@@ -9,12 +9,15 @@ function App() {
 	const [radius, setRadius] = useState(5);
 	const [categories, setCategories] = useState([]);
 	const [isLoaded, setIsLoaded] = useState(false);
+	
 
 	return (
 		<div className="App">
 			{isLoaded ? 
-				<Map allData={allData} radius={radius} categories={categories} setIsLoaded={setIsLoaded}/> :
-				<SearchBar allData={allData} setAllData={setAllData} setRadius={setRadius} setCategories={setCategories} categories={categories} setIsLoaded={setIsLoaded}/>
+				<Map allData={allData} radius={radius} categories={categories} 
+					setIsLoaded={setIsLoaded} setCategories={setCategories} /> :
+				<SearchBar allData={allData} setAllData={setAllData} setRadius={setRadius} setCategories={setCategories} 
+					categories={categories} setIsLoaded={setIsLoaded}/>
 			}			
 			<Footer/>
 		</div>

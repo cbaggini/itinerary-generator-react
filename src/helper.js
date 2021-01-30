@@ -31,10 +31,11 @@ const getWaypoints = (route) => {
 			}
 		}
 	}
+	console.log(coordinateArray)
 	return coordinateArray;
 }
 
-const getRoute = async (allData, radius, categories, ORS_KEY, OTM_KEY, setSelectedPois, setUpdatedRoute, setBuffer) => {
+const getRoute = async (allData, radius, categories, ORS_KEY, OTM_KEY, setSelectedPois, setUpdatedRoute, setBuffer, setIsComplete) => {
 
 	// Get initial route from start and end coordinates
 	const routeData = {
@@ -79,6 +80,7 @@ const getRoute = async (allData, radius, categories, ORS_KEY, OTM_KEY, setSelect
 		const nearest = turf.nearestPoint(selectedPoint, turfPois);
 		selectedPoisArray.push(nearest);
 	}
+	console.log(selectedPoisArray)
 
 	setSelectedPois(selectedPoisArray);
 
@@ -105,6 +107,7 @@ const getRoute = async (allData, radius, categories, ORS_KEY, OTM_KEY, setSelect
 	  .catch((err) => {console.log("An error occurred: " + err);});
 
 	setUpdatedRoute(updatedRoute);
+	setIsComplete(true);
 }
 
 export {getRoute};
