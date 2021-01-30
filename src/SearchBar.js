@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 
 const ORS_KEY = process.env.REACT_APP_ORS_KEY;
 
-const SearchBar = ({allData, setAllData, setRadius, setCategories, categories}) => {
+const SearchBar = ({allData, setAllData, setRadius, setCategories, categories, setIsLoaded}) => {
 	const from = useRef('initial value');
 	const whereTo = useRef('initial value');
 	const buffer = useRef('5');
@@ -19,6 +19,7 @@ const SearchBar = ({allData, setAllData, setRadius, setCategories, categories}) 
 			.then(response => response.json())
 			.catch((err) => {console.log("An error occurred: " + err);});
 		setAllData({...allData, dataFrom: dataFrom1, dataTo: dataTo1})
+		setIsLoaded(true);
 	}
 
 	const toggleCategories = (e) => {
