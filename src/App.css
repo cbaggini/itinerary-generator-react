@@ -1,3 +1,7 @@
+.App {
+  height: 90vh;
+}
+
 .leaflet-container {
   height: 500px;
 }
@@ -5,4 +9,99 @@
 .loading {
   text-align: center;
   color: darkblue;
+}
+
+.searchBar {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  padding-bottom: 2rem;
+  text-align: center;
+  align-items: center;
+  height: 85vh;
+}
+
+.searchBar::before {
+  content: "";
+  background: url("./bkg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.5;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+input {
+  margin: 1rem;
+  max-width: 200px;
+}
+
+#buffer {
+  max-width: 100px;
+  margin: 0;
+}
+
+.buffer {
+  margin: 1rem;
+}
+
+label {
+  margin-right: 20px;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+button {
+  margin: 1rem;
+}
+
+.attraction {
+  background-color: gray;
+  padding: 0.5rem;
+  border: 1px solid rgb(51, 49, 49);
+  border-radius: 5px;
+}
+
+#search,
+#newSearch {
+  max-width: 150px;
+  background-color: lightblue;
+  padding: 0.5rem;
+  border: 1px solid darkblue;
+  border-radius: 5px;
+}
+
+.title {
+  margin-top: 0;
+}
+
+.routeInfo {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 1rem;
+  background-color: #dcedff;
+}
+
+.info {
+  font-size: 1.2em;
+}
+
+footer {
+  padding: 1rem;
+  font-size: 0.8em;
+  background-color: lightgreen;
+  bottom: 0;
+  width: 100%;
 }

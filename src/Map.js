@@ -33,7 +33,15 @@ const Map = ({allData, radius, categories, setIsLoaded, setCategories}) => {
 
 	return (
 		<>
-		<button type="button" onClick={()=>{setIsLoaded(false); setCategories([])}}>Search again</button>
+		{(isComplete && updatedRoute.features) &&	<div className="routeInfo">
+			<h1 className="title">Your suggested itinerary</h1>
+			<p className="info">From {allData.dataFrom.features[0].properties.name} to {allData.dataTo.features[0].properties.name} - {Math.round(updatedRoute.features[0].properties.summary.distance/10) /100 } km 
+			in approximately {Math.round(updatedRoute.features[0].properties.summary.duration/3600)} hours, visiting:</p>
+			<ul>
+				{selectedPois.map(el => <li key={el.id}>{el.properties.name}</li>)}
+			</ul>
+			<button type="button" id="newSearch" onClick={()=>{setIsLoaded(false); setCategories([])}}>New itinerary</button>
+		</div>}
 		<MapContainer center={[56, -1]} zoom={5} scrollWheelZoom={false}>
 			{ isComplete ?<TileLayer
 				attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

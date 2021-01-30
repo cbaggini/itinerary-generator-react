@@ -38,14 +38,24 @@ const SearchBar = ({allData, setAllData, setRadius, setCategories, categories, s
 	}
 	
 	return (
-		<>
-		<input type="text" ref={from} placeholder="from"></input>
-		<input type="text" ref={whereTo} placeholder="to"></input>
-		<label htmlFor="buffer">Kilometers (between 1 and 30):</label>
-		<input type="number" id="buffer" name="buffer" min="1" max="30" ref={buffer}/> 
-		{categoryList.map(el => <button type="button" key={el} value={el} onClick={toggleCategories}>{el}</button>)}
-		<button type="button" onClick={search}>Search</button>
-		</>
+		<div className="searchBar">
+			<h1>Roadtrip itinerary generator</h1>
+			<label htmlFor="from">Where are you leaving from?</label>
+			<input id="from" type="text" ref={from} placeholder="from"></input>
+			<label htmlFor="to">Where are you going to?</label>
+			<input id="to" type="text" ref={whereTo} placeholder="to"></input>
+		<div className="buffer">
+			<label htmlFor="buffer">How many kilometers so you want to deviate from your route ? (between 1 and 30)</label>
+			<input type="number" id="buffer" name="buffer" min="1" max="30" ref={buffer}/> 
+		</div>
+		<div>
+			What type(s) of attractions would you like to visit?
+		</div>
+		<div className="buttons">
+			{categoryList.map(el => <button type="button" className="attraction" key={el} value={el} onClick={toggleCategories}>{el.charAt(0).toUpperCase() + el.slice(1)}</button>)}
+		</div>
+		<button type="button" id="search" onClick={search}>Calculate your itinerary</button>
+		</div>
 	);
 }
 

@@ -13,6 +13,7 @@ function App() {
 
 	return (
 		<div className="App">
+			
 			{isLoaded ? 
 				<Map allData={allData} radius={radius} categories={categories} 
 					setIsLoaded={setIsLoaded} setCategories={setCategories} /> :

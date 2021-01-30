@@ -31,7 +31,6 @@ const getWaypoints = (route) => {
 			}
 		}
 	}
-	console.log(coordinateArray)
 	return coordinateArray;
 }
 
@@ -40,7 +39,7 @@ const getRoute = async (allData, radius, categories, ORS_KEY, OTM_KEY, setSelect
 	// Get initial route from start and end coordinates
 	const routeData = {
 		coordinates: [allData.dataFrom.features[0].geometry.coordinates, allData.dataTo.features[0].geometry.coordinates],
-		extra_info: ['waytype', 'steepness'],	
+		options : {avoid_features: ["highways"]}
 	};
 
 	const initialRoute = await fetch('https://api.openrouteservice.org/v2/directions/driving-car/geojson', {
@@ -57,8 +56,6 @@ const getRoute = async (allData, radius, categories, ORS_KEY, OTM_KEY, setSelect
 	// Create buffer of selected radius
 	const turfRoute = turf.lineString(initialRoute.features[0].geometry.coordinates.map(el => [el[1], el[0]]), { name: 'buffer' });
 	const buffered = turf.buffer(turfRoute, radius, {units: "kilometers"});
-
-	setBuffer(buffered);
 	
 	// Get pois
 	const bbox = turf.bbox(buffered);
@@ -71,7 +68,7 @@ const getRoute = async (allData, radius, categories, ORS_KEY, OTM_KEY, setSelect
 			return points;
 		})
 	
-	// Get array of suggested pois
+	// Get array of suggested pois, remove duplicates
 	const coordinateArray = getWaypoints(initialRoute);
 	const turfPois = turf.featureCollection(pois);
 	let selectedPoisArray = [];
@@ -80,7 +77,7 @@ const getRoute = async (allData, radius, categories, ORS_KEY, OTM_KEY, setSelect
 		const nearest = turf.nearestPoint(selectedPoint, turfPois);
 		selectedPoisArray.push(nearest);
 	}
-	console.log(selectedPoisArray)
+	selectedPoisArray = selectedPoisArray.filter((el,index, arr) => arr.indexOf(arr.find(subel => subel.id === el.id)) === index);
 
 	setSelectedPois(selectedPoisArray);
 
@@ -107,6 +104,12 @@ const getRoute = async (allData, radius, categories, ORS_KEY, OTM_KEY, setSelect
 	  .catch((err) => {console.log("An error occurred: " + err);});
 
 	setUpdatedRoute(updatedRoute);
+
+	// Create buffer of updated route
+	const turfNewRoute = turf.lineString(updatedRoute.features[0].geometry.coordinates.map(el => [el[1], el[0]]), { name: 'buffer' });
+	const newBuffer = turf.buffer(turfNewRoute, radius, {units: "kilometers"});
+
+	setBuffer(newBuffer);
 	setIsComplete(true);
 }
 
