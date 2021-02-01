@@ -28,6 +28,7 @@ const Map = ({allData, radius, categories, setIsLoaded, setCategories}) => {
 		if (allData.dataFrom.features && allData.dataTo.features && radius && categories.length > 0) {
 			getRoute(allData, radius, categories, ORS_KEY, OTM_KEY, setSelectedPois, setUpdatedRoute, setBuffer, setIsComplete);
 		}
+		// alert("Could not calculate route. Please try another search");
 		
 	}, [allData, radius, categories]);
 

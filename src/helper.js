@@ -39,7 +39,7 @@ const getRoute = async (allData, radius, categories, ORS_KEY, OTM_KEY, setSelect
 	// Get initial route from start and end coordinates
 	const routeData = {
 		coordinates: [allData.dataFrom.features[0].geometry.coordinates, allData.dataTo.features[0].geometry.coordinates],
-		options : {avoid_features: ["highways"]}
+		//options : {avoid_features: ["highways"]}
 	};
 
 	const initialRoute = await fetch('https://api.openrouteservice.org/v2/directions/driving-car/geojson', {
@@ -56,6 +56,8 @@ const getRoute = async (allData, radius, categories, ORS_KEY, OTM_KEY, setSelect
 	// Create buffer of selected radius
 	const turfRoute = turf.lineString(initialRoute.features[0].geometry.coordinates.map(el => [el[1], el[0]]), { name: 'buffer' });
 	const buffered = turf.buffer(turfRoute, radius, {units: "kilometers"});
+
+	setBuffer(buffered);
 	
 	// Get pois
 	const bbox = turf.bbox(buffered);
@@ -65,7 +67,7 @@ const getRoute = async (allData, radius, categories, ORS_KEY, OTM_KEY, setSelect
 		.then(data => {
 			// Select points in buffer area and with high popularity score
 			const points = data.features.filter(el => turf.booleanPointInPolygon(turf.point([el.geometry.coordinates[1], el.geometry.coordinates[0]]), buffered) && el.properties.rate === 7)
-			return points;
+			return points;			
 		})
 	
 	// Get array of suggested pois, remove duplicates
@@ -106,10 +108,10 @@ const getRoute = async (allData, radius, categories, ORS_KEY, OTM_KEY, setSelect
 	setUpdatedRoute(updatedRoute);
 
 	// Create buffer of updated route
-	const turfNewRoute = turf.lineString(updatedRoute.features[0].geometry.coordinates.map(el => [el[1], el[0]]), { name: 'buffer' });
-	const newBuffer = turf.buffer(turfNewRoute, radius, {units: "kilometers"});
+	// const turfNewRoute = turf.lineString(updatedRoute.features[0].geometry.coordinates.map(el => [el[1], el[0]]), { name: 'buffer' });
+	// const newBuffer = turf.buffer(turfNewRoute, radius, {units: "kilometers"});
 
-	setBuffer(newBuffer);
+	// setBuffer(newBuffer);
 	setIsComplete(true);
 }
 
