@@ -66,10 +66,18 @@ const getRoute = async (allData, radius, categories, ORS_KEY, OTM_KEY, setSelect
 		.then(response => response.json())
 		.then(data => {
 			// Select points in buffer area and with high popularity score
-			const points = data.features.filter(el => turf.booleanPointInPolygon(turf.point([el.geometry.coordinates[1], el.geometry.coordinates[0]]), buffered) && el.properties.rate === 7)
-			return points;			
+			if (data.features) {
+				const points = data.features.filter(el => turf.booleanPointInPolygon(turf.point([el.geometry.coordinates[1], el.geometry.coordinates[0]]), buffered) && el.properties.rate === 7)
+				return points;
+			} else {
+				return null;
+			}
+						
 		})
 	
+	if (!pois) {
+		throw new Error('no POIs found');
+	} 
 	// Get array of suggested pois, remove duplicates
 	const coordinateArray = getWaypoints(initialRoute);
 	const turfPois = turf.featureCollection(pois);
@@ -104,6 +112,10 @@ const getRoute = async (allData, radius, categories, ORS_KEY, OTM_KEY, setSelect
 	  })
 	  .then(response => response.json())
 	  .catch((err) => {console.log("An error occurred: " + err);});
+	
+	if (!updatedRoute) {
+		throw new Error('Updated route could not be calculated');
+	} 
 
 	setUpdatedRoute(updatedRoute);
 

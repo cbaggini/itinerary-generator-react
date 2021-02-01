@@ -20,16 +20,16 @@ const Map = ({allData, radius, categories, setIsLoaded, setCategories}) => {
 	const greenOptions = { color: 'green' };
 	const redOptions = { color: 'red'};
 
-	// if (route.features) {
-	// 	console.log(route)
-	// }
-
 	useEffect(() => {
 		if (allData.dataFrom.features && allData.dataTo.features && radius && categories.length > 0) {
-			getRoute(allData, radius, categories, ORS_KEY, OTM_KEY, setSelectedPois, setUpdatedRoute, setBuffer, setIsComplete);
-		}
-		// alert("Could not calculate route. Please try another search");
-		
+				getRoute(allData, radius, categories, ORS_KEY, OTM_KEY, setSelectedPois, setUpdatedRoute, setBuffer, setIsComplete)
+				.catch(err => {
+					console.log(err);
+					alert("Could not calculate route. Please try another search");
+					setIsLoaded(false);
+				})
+		}	
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [allData, radius, categories]);
 
 	return (
