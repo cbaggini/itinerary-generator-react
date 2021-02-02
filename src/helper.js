@@ -113,7 +113,7 @@ const getRoute = async (allData, radius, categories, ORS_KEY, OTM_KEY, setSelect
 	  .then(response => response.json())
 	  .catch((err) => {console.log("An error occurred: " + err);});
 	
-	if (!updatedRoute) {
+	if (!updatedRoute.features) {
 		throw new Error('Updated route could not be calculated');
 	} 
 
