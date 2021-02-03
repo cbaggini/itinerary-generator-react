@@ -1,70 +1,71 @@
-# Getting Started with Create React App
+<p align="center">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+  <h3 align="center">Road trip initnerary generator</h3>
 
-## Available Scripts
+  <p align="center">
+    React app to generate a road trip itinerary given a starting point and a destination.
+  </p>
+</p>
 
-In the project directory, you can run:
 
-### `yarn start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<!-- TABLE OF CONTENTS -->
+## Table of Contents
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+* [About the Project](#about-the-project)
+* [Getting Started](#getting-started)
+  * [Prerequisites](#prerequisites)
+  * [Installation](#installation)
+* [Usage](#usage)
 
-### `yarn test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
-### `yarn build`
+<p>This React app lets the user choose a start and an end point for their trip, as well as selecting various parameters regarding their trip (type of attractions they'd like to visit, how much they're prepared to deviate from the original route). The app will then return a map of the route with the suggested attractions and some basic information regarding the initerary (total distance and time, list of suggested attractions). </p>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<p>Demo at https://itinerary-generator.netlify.app/</p>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<!-- GETTING STARTED -->
+## Getting Started
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+To get a local copy up and running follow these simple steps.
 
-### `yarn eject`
+### Prerequisites
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Node >= 14.15.1<br>
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+An OpenRouteService API key ([get one here](https://openrouteservice.org/dev/#/signup))<br>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+An OpenTripMap API key ([get one here](https://opentripmap.io/register))
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+### Installation
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. Clone the repo
+```sh
+git clone https://github.com/cbaggini/itinerary-generator-react.git
+```
+2. Install the necessary Node packages
+```sh
+npm install
+```
+3. Start the local development app.
+```sh
+npm start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<!-- USAGE EXAMPLES -->
+## Usage
 
-### Code Splitting
+#### Search view
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Here the user can select where they'd like their trip to start and end, as well as how many kilometers they want to deviate from the most direct route (between 1 and 30) and one or more types of attractions they'd like to visit.
+![alt text](https://github.com/cbaggini/itinerary-generator-react/blob/master/search.png?raw=true)
 
-### Analyzing the Bundle Size
+#### Results view
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+<p>Here the user is shown a map of the calculated itinerary with the suggested attractions shown as red circle markers and origin and destination shown as blue markers. The route between the starting point, all suggested attractions and the destination is also shown (blue line). The green buffer represent the search area used to look for attractions.</p>
+<p>Above the map, the user can see some basic information about the trip, as well as the list of suggested places to visit.</p>
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![alt text](https://github.com/cbaggini/itinerary-generator-react/blob/master/result.png?raw=true)
