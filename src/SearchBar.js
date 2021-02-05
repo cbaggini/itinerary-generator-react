@@ -11,11 +11,12 @@ const SearchBar = ({allData, setAllData, setRadius, setCategories, categories, s
 	const search = async () => {
 		if (from.current.value && whereTo.current.value && buffer.current.value && categories.length > 0) {
 			setRadius(buffer.current.value);
-			// Search for origin coordinates
+			// Geocode origin
+			// use this link in future `https://nominatim.openstreetmap.org/search?q=${from.current.value.replace(/ /g,'-')}&format=json&polygon=1&addressdetails=1`;
 			const dataFrom1 = await fetch(`https://api.openrouteservice.org/geocode/search?api_key=${ORS_KEY}&text=${from.current.value.replace(/ /g,'-')}`)
 				.then(response => response.json())
 				.catch((err) => {console.log("An error occurred: " + err);});
-			//Search for destination coordinates
+			// Geocode destination
 			const dataTo1 = await fetch(`https://api.openrouteservice.org/geocode/search?api_key=${ORS_KEY}&text=${whereTo.current.value.replace(/ /g,'-')}`)
 				.then(response => response.json())
 				.catch((err) => {console.log("An error occurred: " + err);});
@@ -49,7 +50,7 @@ const SearchBar = ({allData, setAllData, setRadius, setCategories, categories, s
 			<label htmlFor="to">Where are you going to?</label>
 			<input id="to" type="text" ref={whereTo} placeholder="to"></input>
 		<div className="buffer">
-			<label htmlFor="buffer">How many kilometers so you want to deviate from your route ? (between 1 and 30)</label>
+			<label htmlFor="buffer">How many kilometers do you want to deviate from your route ? (between 1 and 30)</label>
 			<input type="number" id="buffer" name="buffer" min="1" max="30" ref={buffer}/> 
 		</div>
 		<div>
