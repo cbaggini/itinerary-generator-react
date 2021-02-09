@@ -1,13 +1,9 @@
 import React, {useState, useEffect} from "react";
 import { MapContainer, TileLayer, Marker, Polyline, CircleMarker, Popup, Polygon, useMap } from 'react-leaflet';
-import { getRoute } from "./helper";
-
-const ORS_KEY = process.env.REACT_APP_ORS_KEY;
-const OTM_KEY = process.env.REACT_APP_OTM_KEY;
 
 const AutoZoom = ({ bounds }) => {
 	const map = useMap();
-	map.fitBounds(bounds);
+	map.fitBounds(bounds, {padding: [100, 100]});
 	return null;
 }
 
@@ -22,12 +18,30 @@ const Map = ({allData, radius, categories, setIsLoaded, setCategories}) => {
 
 	useEffect(() => {
 		if (allData.dataFrom.features && allData.dataTo.features && radius && categories.length > 0) {
-				getRoute(allData, radius, categories, ORS_KEY, OTM_KEY, setSelectedPois, setUpdatedRoute, setBuffer, setIsComplete)
-				.catch(err => {
-					console.log(err);
-					alert("Could not calculate route. Please try another search");
-					setIsLoaded(false);
-				})
+			const coordinates = [allData.dataFrom.features[0].geometry.coordinates, allData.dataTo.features[0].geometry.coordinates];
+			const getRouteData = {coordinates: coordinates, radius: radius, categories: categories};
+			fetch('http://localhost:3000/itinerary', {
+				method: 'POST', 
+				//mode: 'cors',
+				
+				headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(getRouteData) 
+			})
+			.then(response => response.json())
+			.then(data => {
+				setBuffer(data.buffered)
+				setSelectedPois(data.selectedPoisArray)
+				setUpdatedRoute(data.updatedRoute)
+				setIsComplete(true)
+			})
+			.catch(err => {
+				console.log(err);
+				alert("Could not calculate route. Please try another search");
+				setIsLoaded(false);
+			})
 		}	
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [allData, radius, categories]);
