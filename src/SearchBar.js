@@ -1,7 +1,5 @@
 import React, { useRef } from "react";
 
-const ORS_KEY = process.env.REACT_APP_ORS_KEY;
-
 const SearchBar = ({allData, setAllData, setRadius, setCategories, categories, setIsLoaded}) => {
 	const from = useRef('initial value');
 	const whereTo = useRef('initial value');
