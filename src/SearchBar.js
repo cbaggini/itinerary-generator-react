@@ -12,16 +12,23 @@ const SearchBar = ({allData, setAllData, setRadius, setCategories, categories, s
 		if (from.current.value && whereTo.current.value && buffer.current.value && categories.length > 0) {
 			setRadius(buffer.current.value);
 			// Geocode origin
-			// use this link in future `https://nominatim.openstreetmap.org/search?q=${from.current.value.replace(/ /g,'-')}&format=json&polygon=1&addressdetails=1`;
-			const dataFrom1 = await fetch(`https://api.openrouteservice.org/geocode/search?api_key=${ORS_KEY}&text=${from.current.value.replace(/ /g,'-')}`)
+			// use this link in future? `https://nominatim.openstreetmap.org/search?q=${from.current.value.replace(/ /g,'-')}&format=json&polygon=1&addressdetails=1`;
+			const dataFrom1 = await fetch(`http://localhost:3000/geocode?text=${from.current.value.replace(/ /g,'-')}`)
 				.then(response => response.json())
 				.catch((err) => {console.log("An error occurred: " + err);});
 			// Geocode destination
-			const dataTo1 = await fetch(`https://api.openrouteservice.org/geocode/search?api_key=${ORS_KEY}&text=${whereTo.current.value.replace(/ /g,'-')}`)
+			const dataTo1 = await fetch(`http://localhost:3000/geocode?text=${whereTo.current.value.replace(/ /g,'-')}`)
 				.then(response => response.json())
 				.catch((err) => {console.log("An error occurred: " + err);});
-			setAllData({...allData, dataFrom: dataFrom1, dataTo: dataTo1})
-			setIsLoaded(true);
+			if (dataFrom1.queryData.features && dataTo1.queryData.features) {
+				setAllData({...allData, dataFrom: dataFrom1.queryData, dataTo: dataTo1.queryData})
+				setIsLoaded(true);
+			} else if (dataFrom1.queryData.features) {
+				alert("Destination not found")
+			} else {
+				alert("Origin not found")
+			}
+			
 		} else {
 			alert("You need to fill in all the fields in the form")
 		}

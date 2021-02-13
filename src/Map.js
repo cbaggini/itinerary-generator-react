@@ -32,10 +32,15 @@ const Map = ({allData, radius, categories, setIsLoaded, setCategories}) => {
 			})
 			.then(response => response.json())
 			.then(data => {
-				setBuffer(data.buffered)
-				setSelectedPois(data.selectedPoisArray)
-				setUpdatedRoute(data.updatedRoute)
-				setIsComplete(true)
+				if (data.selectedPoisArray) {
+					setBuffer(data.buffered)
+					setSelectedPois(data.selectedPoisArray)
+					setUpdatedRoute(data.updatedRoute)
+					setIsComplete(true)
+				} else {
+					alert("Could not calculate route. Please try another search");
+					setIsLoaded(false);
+				}	
 			})
 			.catch(err => {
 				console.log(err);
