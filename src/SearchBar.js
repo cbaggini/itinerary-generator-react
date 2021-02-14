@@ -11,11 +11,13 @@ const SearchBar = ({allData, setAllData, setRadius, setCategories, categories, s
 			setRadius(buffer.current.value);
 			// Geocode origin
 			// use this link in future? `https://nominatim.openstreetmap.org/search?q=${from.current.value.replace(/ /g,'-')}&format=json&polygon=1&addressdetails=1`;
-			const dataFrom1 = await fetch(`http://localhost:3000/geocode?text=${from.current.value.replace(/ /g,'-')}`)
+			// const dataFrom1 = await fetch(`http://localhost:8080/geocode?text=${from.current.value.replace(/ /g,'-')}`)
+			const dataFrom1 = await fetch(`https://itinerary-generator-node.nw.r.appspot.com/geocode?text=${from.current.value.replace(/ /g,'-')}`)
 				.then(response => response.json())
 				.catch((err) => {console.log("An error occurred: " + err);});
 			// Geocode destination
-			const dataTo1 = await fetch(`http://localhost:3000/geocode?text=${whereTo.current.value.replace(/ /g,'-')}`)
+			// const dataTo1 = await fetch(`http://localhost:3000/geocode?text=${whereTo.current.value.replace(/ /g,'-')}`)
+			const dataTo1 = await fetch(`https://itinerary-generator-node.nw.r.appspot.com/geocode?text=${whereTo.current.value.replace(/ /g,'-')}`)
 				.then(response => response.json())
 				.catch((err) => {console.log("An error occurred: " + err);});
 			if (dataFrom1.queryData.features && dataTo1.queryData.features) {

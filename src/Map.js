@@ -20,10 +20,9 @@ const Map = ({allData, radius, categories, setIsLoaded, setCategories}) => {
 		if (allData.dataFrom.features && allData.dataTo.features && radius && categories.length > 0) {
 			const coordinates = [allData.dataFrom.features[0].geometry.coordinates, allData.dataTo.features[0].geometry.coordinates];
 			const getRouteData = {coordinates: coordinates, radius: radius, categories: categories};
-			fetch('http://localhost:3000/itinerary', {
+			// fetch('http://localhost:8080/itinerary', {
+			fetch('https://itinerary-generator-node.nw.r.appspot.com/itinerary', {
 				method: 'POST', 
-				//mode: 'cors',
-				
 				headers: {
 				'Access-Control-Allow-Origin': '*',
 				'Content-Type': 'application/json',
