@@ -10,7 +10,6 @@ const SearchBar = ({allData, setAllData, setRadius, setCategories, categories, s
 		if (from.current.value && whereTo.current.value && buffer.current.value && categories.length > 0) {
 			setRadius(buffer.current.value);
 			// Geocode origin
-			// use this link in future? `https://nominatim.openstreetmap.org/search?q=${from.current.value.replace(/ /g,'-')}&format=json&polygon=1&addressdetails=1`;
 			// const dataFrom1 = await fetch(`http://localhost:8080/geocode?text=${from.current.value.replace(/ /g,'-')}`)
 			const dataFrom1 = await fetch(`https://itinerary-generator-node.nw.r.appspot.com/geocode?text=${from.current.value.replace(/ /g,'-')}`)
 				.then(response => response.json())
