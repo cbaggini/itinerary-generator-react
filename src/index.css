@@ -11,3 +11,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.popupImg {
+  height: 130px;
+  width: auto;
+  margin: auto;
+}
+
+.leaflet-popup-content {
+  max-width: 240px;
+  max-height: 240px;
+  overflow-y: scroll;
+}

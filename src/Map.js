@@ -22,7 +22,7 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
   const [updatedRoute, setUpdatedRoute] = useState({});
   const [isComplete, setIsComplete] = useState(false);
   const [poiDetails, setPoiDetails] = useState([]);
-  console.log(poiDetails);
+  //console.log(poiDetails);
 
   const greenOptions = { color: "green" };
   const redOptions = { color: "red" };
@@ -192,10 +192,15 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
               <Popup>
                 <h1>{el.poiInfo.name}</h1>
                 <img
+                  className="popupImg"
                   alt={el.poiInfo.name}
                   src={el.poiInfo.preview.source}
                 ></img>
-                <div>{el.poiInfo.wikipedia_extracts.html}</div>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: el.poiInfo.wikipedia_extracts.html,
+                  }}
+                ></div>
                 <a href={el.poiInfo.wikipedia} target="_blank" rel="noreferrer">
                   See more on Wikipedia
                 </a>
