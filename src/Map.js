@@ -21,10 +21,22 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
   const [selectedPois, setSelectedPois] = useState([]);
   const [updatedRoute, setUpdatedRoute] = useState({});
   const [isComplete, setIsComplete] = useState(false);
-  //console.log(selectedPois[0].id);
+  const [poiDetails, setPoiDetails] = useState([]);
+  console.log(poiDetails);
 
   const greenOptions = { color: "green" };
   const redOptions = { color: "red" };
+
+  const getDetails = async (poisArray) => {
+    let newPoisDetails = [];
+    for (let i = 0; i < poisArray.length; i++) {
+      const elDetails = await fetch(
+        `https://itinerary-generator-node.nw.r.appspot.com/poi?xid=${poisArray[i].id}`
+      ).then((response) => response.json());
+      newPoisDetails = newPoisDetails.concat(elDetails);
+    }
+    return newPoisDetails;
+  };
 
   useEffect(() => {
     if (
@@ -71,6 +83,11 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allData, radius, categories]);
+
+  useEffect(() => {
+    getDetails(selectedPois).then((data) => setPoiDetails(data));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedPois]);
 
   return (
     <>
@@ -163,15 +180,26 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
             positions={buffer.geometry.coordinates}
           />
         )}
-        {(isComplete && selectedPois.length) > 0 &&
-          selectedPois.map((el) => (
+        {isComplete &&
+          poiDetails.length > 0 &&
+          poiDetails.map((el) => (
             <CircleMarker
-              key={el.properties.xid}
+              key={el.poiInfo.xid}
               pathOptions={redOptions}
               radius={5}
-              center={[el.geometry.coordinates[1], el.geometry.coordinates[0]]}
+              center={[el.poiInfo.point.lat, el.poiInfo.point.lon]}
             >
-              <Popup>{el.properties.name}</Popup>
+              <Popup>
+                <h1>{el.poiInfo.name}</h1>
+                <img
+                  alt={el.poiInfo.name}
+                  src={el.poiInfo.preview.source}
+                ></img>
+                <div>{el.poiInfo.wikipedia_extracts.html}</div>
+                <a href={el.poiInfo.wikipedia} target="_blank" rel="noreferrer">
+                  See more on Wikipedia
+                </a>
+              </Popup>
             </CircleMarker>
           ))}
       </MapContainer>
