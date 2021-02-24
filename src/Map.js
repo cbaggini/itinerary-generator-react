@@ -18,11 +18,12 @@ const AutoZoom = ({ bounds }) => {
 
 const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
   const [buffer, setBuffer] = useState({});
+  const [allPois, setAllPois] = useState([]);
   const [selectedPois, setSelectedPois] = useState([]);
   const [updatedRoute, setUpdatedRoute] = useState({});
   const [isComplete, setIsComplete] = useState(false);
   const [poiDetails, setPoiDetails] = useState([]);
-  //console.log(poiDetails);
+  console.log(allPois);
 
   const greenOptions = { color: "green" };
   const redOptions = { color: "red" };
@@ -33,7 +34,7 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
       const elDetails = await fetch(
         `https://itinerary-generator-node.nw.r.appspot.com/poi?xid=${poisArray[i].id}`
       ).then((response) => response.json());
-      newPoisDetails = newPoisDetails.concat(elDetails);
+      newPoisDetails = newPoisDetails.concat(elDetails.poiInfo);
     }
     return newPoisDetails;
   };
@@ -69,6 +70,7 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
             setBuffer(data.buffered);
             setSelectedPois(data.selectedPoisArray);
             setUpdatedRoute(data.updatedRoute);
+            setAllPois(data.pois);
             setIsComplete(true);
           } else {
             alert("Could not calculate route. Please try another search");
@@ -130,7 +132,13 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
         ) : (
-          <h1 className="loading">Calculating your itinerary...</h1>
+          <>
+            <h1 className="loading">Calculating your itinerary...</h1>
+            <h3 className="loading">
+              Please be patient, long routes can take up to one minute to
+              calculate
+            </h3>
+          </>
         )}
         {isComplete && allData.dataFrom.features && (
           <Marker
@@ -184,24 +192,24 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
           poiDetails.length > 0 &&
           poiDetails.map((el) => (
             <CircleMarker
-              key={el.poiInfo.xid}
+              key={el.xid}
               pathOptions={redOptions}
               radius={5}
-              center={[el.poiInfo.point.lat, el.poiInfo.point.lon]}
+              center={[el.point.lat, el.point.lon]}
             >
               <Popup>
-                <h1>{el.poiInfo.name}</h1>
+                <h1>{el.name}</h1>
                 <img
                   className="popupImg"
-                  alt={el.poiInfo.name}
-                  src={el.poiInfo.preview.source}
+                  alt={el.name}
+                  src={el.preview.source}
                 ></img>
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: el.poiInfo.wikipedia_extracts.html,
+                    __html: el.wikipedia_extracts.html,
                   }}
                 ></div>
-                <a href={el.poiInfo.wikipedia} target="_blank" rel="noreferrer">
+                <a href={el.wikipedia} target="_blank" rel="noreferrer">
                   See more on Wikipedia
                 </a>
               </Popup>

@@ -105,3 +105,15 @@ footer {
   bottom: 0;
   width: 100%;
 }
+
+.popupImg {
+  height: 130px;
+  width: auto;
+  margin: auto;
+}
+
+.leaflet-popup-content {
+  max-width: 240px;
+  max-height: 240px;
+  overflow-y: scroll;
+}
