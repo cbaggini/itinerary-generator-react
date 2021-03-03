@@ -20,7 +20,7 @@ const SearchBar = ({
   ];
 
   const baseURL =
-    process.env.MODE === "prod"
+    process.env.REACT_APP_MODE === "prod"
       ? "https://itinerary-generator-node.nw.r.appspot.com/"
       : "http://localhost:8080/";
 

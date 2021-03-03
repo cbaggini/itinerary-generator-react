@@ -28,7 +28,7 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
   const greenOptions = { color: "green" };
   const redOptions = { color: "red" };
   const baseURL =
-    process.env.MODE === "prod"
+    process.env.REACT_APP_MODE === "prod"
       ? "https://itinerary-generator-node.nw.r.appspot.com/"
       : "http://localhost:8080/";
 
