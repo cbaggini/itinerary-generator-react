@@ -27,12 +27,15 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
 
   const greenOptions = { color: "green" };
   const redOptions = { color: "red" };
+  const baseURL = process.env.PORT
+    ? "https://itinerary-generator-node.nw.r.appspot.com/"
+    : "http://localhost:8080/";
 
   const getDetails = async (poisArray) => {
     let newPoisDetails = [];
     for (let i = 0; i < poisArray.length; i++) {
       const elDetails = await fetch(
-        `https://itinerary-generator-node.nw.r.appspot.com/poi?xid=${poisArray[i].id}`
+        `${baseURL}poi?xid=${poisArray[i].id}`
       ).then((response) => response.json());
       newPoisDetails = newPoisDetails.concat(elDetails.poiInfo);
     }
@@ -56,7 +59,7 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
         categories: categories,
       };
       // fetch('http://localhost:8080/itinerary', {
-      fetch("https://itinerary-generator-node.nw.r.appspot.com/itinerary", {
+      fetch(`${baseURL}itinerary`, {
         method: "POST",
         headers: {
           "Access-Control-Allow-Origin": "*",
