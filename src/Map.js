@@ -27,9 +27,10 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
 
   const greenOptions = { color: "green" };
   const redOptions = { color: "red" };
-  const baseURL = process.env.PORT
-    ? "https://itinerary-generator-node.nw.r.appspot.com/"
-    : "http://localhost:8080/";
+  const baseURL =
+    process.env.MODE === "prod"
+      ? "https://itinerary-generator-node.nw.r.appspot.com/"
+      : "http://localhost:8080/";
 
   const getDetails = async (poisArray) => {
     let newPoisDetails = [];

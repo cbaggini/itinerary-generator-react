@@ -19,9 +19,10 @@ const SearchBar = ({
     "architecture",
   ];
 
-  const baseURL = process.env.PORT
-    ? "https://itinerary-generator-node.nw.r.appspot.com/"
-    : "http://localhost:8080/";
+  const baseURL =
+    process.env.MODE === "prod"
+      ? "https://itinerary-generator-node.nw.r.appspot.com/"
+      : "http://localhost:8080/";
 
   const search = async () => {
     if (
