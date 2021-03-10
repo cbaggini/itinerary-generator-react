@@ -26,6 +26,8 @@
 
 <p>Demo at https://itinerary-generator.netlify.app/</p>
 
+<p> The back end for this application is made with Node.js and Express and can be found at https://itinerary-generator-node.nw.r.appspot.com/ </p>
+
 <!-- GETTING STARTED -->
 ## Getting Started
 
