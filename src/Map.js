@@ -59,7 +59,6 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
         radius: radius,
         categories: categories,
       };
-      // fetch('http://localhost:8080/itinerary', {
       fetch(`${baseURL}itinerary`, {
         method: "POST",
         headers: {
