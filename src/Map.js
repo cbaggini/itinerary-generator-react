@@ -9,6 +9,7 @@ import {
   Polygon,
   useMap,
 } from "react-leaflet";
+import PoiPopup from "./PoiPopup";
 
 const AutoZoom = ({ bounds }) => {
   const map = useMap();
@@ -201,20 +202,7 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
               center={[el.point.lat, el.point.lon]}
             >
               <Popup>
-                <h1>{el.name}</h1>
-                <img
-                  className="popupImg"
-                  alt={el.name}
-                  src={el.preview.source}
-                ></img>
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: el.wikipedia_extracts.html,
-                  }}
-                ></div>
-                <a href={el.wikipedia} target="_blank" rel="noreferrer">
-                  See more on Wikipedia
-                </a>
+                <PoiPopup poi={el}/>
               </Popup>
             </CircleMarker>
           ))}
