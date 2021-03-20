@@ -6,16 +6,11 @@ import {
   Polyline,
   CircleMarker,
   Popup,
-  Polygon,
-  useMap,
+  Polygon
 } from "react-leaflet";
 import PoiPopup from "./PoiPopup";
+import AutoZoom from "./AutoZoom";
 
-const AutoZoom = ({ bounds }) => {
-  const map = useMap();
-  map.fitBounds(bounds, { padding: [100, 100] });
-  return null;
-};
 
 const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
   const [buffer, setBuffer] = useState({});
