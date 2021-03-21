@@ -10,6 +10,8 @@ import {
 } from "react-leaflet";
 import PoiPopup from "./PoiPopup";
 import AutoZoom from "./AutoZoom";
+import Loading from "./Loading";
+import RouteInfo from "./RouteInfo";
 
 
 const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
@@ -93,36 +95,8 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
   return (
     <>
       {isComplete && updatedRoute.features && (
-        <div className="routeInfo">
-          <h1 className="title">Your suggested itinerary</h1>
-          <p className="info">
-            From {allData.dataFrom.features[0].properties.name} to{" "}
-            {allData.dataTo.features[0].properties.name} -{" "}
-            {Math.round(
-              updatedRoute.features[0].properties.summary.distance / 10
-            ) / 100}{" "}
-            km in approximately{" "}
-            {Math.round(
-              updatedRoute.features[0].properties.summary.duration / 3600
-            )}{" "}
-            hours, visiting:
-          </p>
-          <ul>
-            {selectedPois.map((el) => (
-              <li key={el.id}>{el.properties.name}</li>
-            ))}
-          </ul>
-          <button
-            type="button"
-            id="newSearch"
-            onClick={() => {
-              setIsLoaded(false);
-              setCategories([]);
-            }}
-          >
-            New itinerary
-          </button>
-        </div>
+       <RouteInfo allData={allData} updatedRoute={updatedRoute} selectedPois={selectedPois} 
+	   			setIsLoaded={setIsLoaded} setCategories={setCategories} />
       )}
       <MapContainer center={[56, -1]} zoom={5} scrollWheelZoom={false}>
         {isComplete ? (<TileLayer
@@ -160,14 +134,8 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
             />
             <AutoZoom
               bounds={[
-                [
-                  updatedRoute.features[0].bbox[1],
-                  updatedRoute.features[0].bbox[0],
-                ],
-                [
-                  updatedRoute.features[0].bbox[3],
-                  updatedRoute.features[0].bbox[2],
-                ],
+                [updatedRoute.features[0].bbox[1], updatedRoute.features[0].bbox[0]],
+                [updatedRoute.features[0].bbox[3],updatedRoute.features[0].bbox[2]]
               ]}
             />
           </>
