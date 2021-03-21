@@ -125,20 +125,11 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
         </div>
       )}
       <MapContainer center={[56, -1]} zoom={5} scrollWheelZoom={false}>
-        {isComplete ? (
-          <TileLayer
+        {isComplete ? (<TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-        ) : (
-          <>
-            <h1 className="loading">Calculating your itinerary...</h1>
-            <h3 className="loading">
-              Please be patient, long routes can take up to one minute to
-              calculate
-            </h3>
-          </>
-        )}
+        ) : (<Loading/>)}
         {isComplete && allData.dataFrom.features && (
           <Marker
             position={[
