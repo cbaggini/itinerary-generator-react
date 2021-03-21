@@ -1,6 +1,6 @@
 <p align="center">
 
-  <h3 align="center">Road trip initnerary generator</h3>
+  <h3 align="center">Road trip itinerary generator</h3>
 
   <p align="center">
     React app to generate a road trip itinerary given a starting point and a destination.
