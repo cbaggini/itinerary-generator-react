@@ -71,3 +71,7 @@ Here the user can select where they'd like their trip to start and end, as well 
 <p>Above the map, the user can see some basic information about the trip, as well as the list of suggested places to visit.</p>
 
 ![alt text](https://github.com/cbaggini/itinerary-generator-react/blob/master/result.png?raw=true)
+
+<p>Clicking on a marker will show a popup with a photo and information about the attraction.</p>
+
+![alt text](https://github.com/cbaggini/itinerary-generator-react/blob/master/popup.png?raw=true)
