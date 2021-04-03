@@ -1,12 +1,5 @@
 import "./App.css";
 import React, { useState } from "react";
-import {
-  RecoilRoot,
-//   atom,
-//   selector,
-//   useRecoilState,
-//   useRecoilValue,
-} from "recoil";
 
 import Footer from "./Footer";
 import Map from "./Map";
@@ -19,29 +12,27 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
-    <RecoilRoot>
-      <div className="App">
-        {isLoaded ? (
-          <Map
-            allData={allData}
-            radius={radius}
-            categories={categories}
-            setIsLoaded={setIsLoaded}
-            setCategories={setCategories}
-          />
-        ) : (
-          <SearchBar
-            allData={allData}
-            setAllData={setAllData}
-            setRadius={setRadius}
-            setCategories={setCategories}
-            categories={categories}
-            setIsLoaded={setIsLoaded}
-          />
-        )}
-        <Footer />
-      </div>
-    </RecoilRoot>
+    <div className="App">
+      {isLoaded ? (
+        <Map
+          allData={allData}
+          radius={radius}
+          categories={categories}
+          setIsLoaded={setIsLoaded}
+          setCategories={setCategories}
+        />
+      ) : (
+        <SearchBar
+          allData={allData}
+          setAllData={setAllData}
+          setRadius={setRadius}
+          setCategories={setCategories}
+          categories={categories}
+          setIsLoaded={setIsLoaded}
+        />
+      )}
+      <Footer />
+    </div>
   );
 }
 
