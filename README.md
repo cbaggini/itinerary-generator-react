@@ -1,3 +1,5 @@
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cbaggini_itinerary-generator-react&metric=alert_status)](https://sonarcloud.io/dashboard?id=cbaggini_itinerary-generator-react)
+
 <p align="center">
 
   <h3 align="center">Road trip itinerary generator</h3>
@@ -7,19 +9,18 @@
   </p>
 </p>
 
-
-
 <!-- TABLE OF CONTENTS -->
+
 ## Table of Contents
 
-* [About the Project](#about-the-project)
-* [Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
-  * [Installation](#installation)
-* [Usage](#usage)
-
+- [About the Project](#about-the-project)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
 
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 <p>This React app lets the user choose a start and an end point for their trip, as well as selecting various parameters regarding their trip (type of attractions they'd like to visit, how much they're prepared to deviate from the original route). The app will then return a map of the route with the suggested attractions and some basic information regarding the initerary (total distance and time, list of suggested attractions). </p>
@@ -29,6 +30,7 @@
 <p> The back end for this application is made with Node.js and Express; the code is at https://github.com/cbaggini/itinerary-generator-node and the deployed API can be found at https://itinerary-generator-node.nw.r.appspot.com/ </p>
 
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
 To get a local copy up and running follow these simple steps.
@@ -41,23 +43,28 @@ An OpenRouteService API key ([get one here](https://openrouteservice.org/dev/#/s
 
 An OpenTripMap API key ([get one here](https://opentripmap.io/register))
 
-
 ### Installation
 
 1. Clone the repo
+
 ```sh
 git clone https://github.com/cbaggini/itinerary-generator-react.git
 ```
+
 2. Install the necessary Node packages
+
 ```sh
 npm install
 ```
+
 3. Start the local development app.
+
 ```sh
 npm start
 ```
 
 <!-- USAGE EXAMPLES -->
+
 ## Usage
 
 #### Search view

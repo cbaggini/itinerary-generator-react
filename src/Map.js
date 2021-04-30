@@ -6,13 +6,12 @@ import {
   Polyline,
   CircleMarker,
   Popup,
-  Polygon
+  Polygon,
 } from "react-leaflet";
 import PoiPopup from "./PoiPopup";
 import AutoZoom from "./AutoZoom";
 import Loading from "./Loading";
 import RouteInfo from "./RouteInfo";
-
 
 const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
   const [buffer, setBuffer] = useState({});
@@ -29,17 +28,6 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
     process.env.REACT_APP_MODE === "prod"
       ? "https://itinerary-generator-node.nw.r.appspot.com/"
       : "http://localhost:8080/";
-
-  const getDetails = async (poisArray) => {
-    let newPoisDetails = [];
-    for (let i = 0; i < poisArray.length; i++) {
-      const elDetails = await fetch(
-        `${baseURL}poi?xid=${poisArray[i].id}`
-      ).then((response) => response.json());
-      newPoisDetails = newPoisDetails.concat(elDetails.poiInfo);
-    }
-    return newPoisDetails;
-  };
 
   useEffect(() => {
     if (
@@ -84,26 +72,42 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
           setIsLoaded(false);
         });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allData, radius, categories]);
+  }, [allData, radius, categories, baseURL, setIsLoaded]);
 
   useEffect(() => {
+    const getDetails = async (poisArray) => {
+      let newPoisDetails = [];
+      for (let i = 0; i < poisArray.length; i++) {
+        const elDetails = await fetch(
+          `${baseURL}poi?xid=${poisArray[i].id}`
+        ).then((response) => response.json());
+        newPoisDetails = newPoisDetails.concat(elDetails.poiInfo);
+      }
+      return newPoisDetails;
+    };
     getDetails(selectedPois).then((data) => setPoiDetails(data));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedPois]);
+  }, [selectedPois, baseURL]);
 
   return (
     <>
       {isComplete && updatedRoute.features && (
-       <RouteInfo allData={allData} updatedRoute={updatedRoute} selectedPois={selectedPois} 
-	   			setIsLoaded={setIsLoaded} setCategories={setCategories} />
+        <RouteInfo
+          allData={allData}
+          updatedRoute={updatedRoute}
+          selectedPois={selectedPois}
+          setIsLoaded={setIsLoaded}
+          setCategories={setCategories}
+        />
       )}
       <MapContainer center={[56, -1]} zoom={5} scrollWheelZoom={false}>
-        {isComplete ? (<TileLayer
+        {isComplete ? (
+          <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-        ) : (<Loading/>)}
+        ) : (
+          <Loading />
+        )}
         {isComplete && allData.dataFrom.features && (
           <Marker
             position={[
@@ -134,8 +138,14 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
             />
             <AutoZoom
               bounds={[
-                [updatedRoute.features[0].bbox[1], updatedRoute.features[0].bbox[0]],
-                [updatedRoute.features[0].bbox[3],updatedRoute.features[0].bbox[2]]
+                [
+                  updatedRoute.features[0].bbox[1],
+                  updatedRoute.features[0].bbox[0],
+                ],
+                [
+                  updatedRoute.features[0].bbox[3],
+                  updatedRoute.features[0].bbox[2],
+                ],
               ]}
             />
           </>
@@ -156,7 +166,7 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
               center={[el.point.lat, el.point.lon]}
             >
               <Popup>
-                <PoiPopup poi={el}/>
+                <PoiPopup poi={el} />
               </Popup>
             </CircleMarker>
           ))}
