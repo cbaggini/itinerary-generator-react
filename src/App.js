@@ -7,6 +7,8 @@ import SearchBar from "./SearchBar";
 
 function App() {
   const [allData, setAllData] = useState({ dataFrom: {}, dataTo: {} });
+  const [form, setForm] = useState({});
+  const [routeData, setRouteData] = useState({});
   const [radius, setRadius] = useState(5);
   const [categories, setCategories] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -16,6 +18,10 @@ function App() {
       {isLoaded ? (
         <Map
           allData={allData}
+          form={form}
+          setForm={setForm}
+          routeData={routeData}
+          setRouteData={setRouteData}
           radius={radius}
           categories={categories}
           setIsLoaded={setIsLoaded}
@@ -24,6 +30,10 @@ function App() {
       ) : (
         <SearchBar
           allData={allData}
+          form={form}
+          setForm={setForm}
+          routeData={routeData}
+          setRouteData={setRouteData}
           setAllData={setAllData}
           setRadius={setRadius}
           setCategories={setCategories}

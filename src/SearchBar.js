@@ -7,10 +7,14 @@ const SearchBar = ({
   setCategories,
   categories,
   setIsLoaded,
+  form,
+  setForm,
+  routeData,
+  setRouteData,
 }) => {
-  const from = useRef("initial value");
-  const whereTo = useRef("initial value");
-  const buffer = useRef("5");
+  const from = useRef("");
+  const whereTo = useRef("");
+  const buffer = useRef("");
   const categoryList = [
     "religion",
     "natural",
@@ -29,9 +33,9 @@ const SearchBar = ({
       from.current.value &&
       whereTo.current.value &&
       buffer.current.value &&
-      categories.length > 0
+      form.categories.length > 0
     ) {
-      setRadius(buffer.current.value);
+      setForm({ ...form, buffer: buffer.current.value });
 
       // Geocode origin
       const dataFrom1 = await fetch(
@@ -67,22 +71,24 @@ const SearchBar = ({
   };
 
   const toggleCategories = (e) => {
-    if (categories.length > 0) {
-      if ([...categories].includes(e.target.value)) {
-        setCategories(
-          [...categories]
-            .slice(0, categories.indexOf(e.target.value))
-            .concat(
-              [...categories].slice(categories.indexOf(e.target.value) + 1)
+    if (form.categories && form.categories.length > 0) {
+      if ([...form.categories].includes(e.target.value)) {
+        const newCategories = [...form.categories]
+          .slice(0, form.categories.indexOf(e.target.value))
+          .concat(
+            [...form.categories].slice(
+              form.categories.indexOf(e.target.value) + 1
             )
-        );
+          );
+        setForm({ ...form, categories: newCategories });
         e.target.style.backgroundColor = "grey";
       } else {
-        setCategories([...categories, e.target.value]);
+        const newCategories = [...form.categories, e.target.value];
+        setForm({ ...form, categories: newCategories });
         e.target.style.backgroundColor = "green";
       }
     } else {
-      setCategories([e.target.value]);
+      setForm({ ...form, categories: [e.target.value] });
       e.target.style.backgroundColor = "green";
     }
   };

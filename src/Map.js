@@ -13,7 +13,17 @@ import AutoZoom from "./AutoZoom";
 import Loading from "./Loading";
 import RouteInfo from "./RouteInfo";
 
-const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
+const Map = ({
+  allData,
+  radius,
+  categories,
+  setIsLoaded,
+  setCategories,
+  form,
+  setForm,
+  routeData,
+  setRouteData,
+}) => {
   const [buffer, setBuffer] = useState({});
   const [allPois, setAllPois] = useState([]);
   const [selectedPois, setSelectedPois] = useState([]);
@@ -33,8 +43,8 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
     if (
       allData.dataFrom.features &&
       allData.dataTo.features &&
-      radius &&
-      categories.length > 0
+      form.buffer &&
+      form.categories.length > 0
     ) {
       const coordinates = [
         allData.dataFrom.features[0].geometry.coordinates,
@@ -42,8 +52,8 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
       ];
       const getRouteData = {
         coordinates: coordinates,
-        radius: radius,
-        categories: categories,
+        radius: form.buffer,
+        categories: form.categories,
       };
       fetch(`${baseURL}itinerary`, {
         method: "POST",
@@ -56,10 +66,11 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
         .then((response) => response.json())
         .then((data) => {
           if (data.selectedPoisArray) {
-            setBuffer(data.buffered);
-            setSelectedPois(data.selectedPoisArray);
-            setUpdatedRoute(data.updatedRoute);
-            setAllPois(data.pois);
+            setRouteData({ ...data });
+            // setBuffer(data.buffered);
+            // setSelectedPois(data.selectedPoisArray);
+            // setUpdatedRoute(data.updatedRoute);
+            // setAllPois(data.pois);
             setIsComplete(true);
           } else {
             alert("Could not calculate route. Please try another search");
@@ -72,7 +83,7 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
           setIsLoaded(false);
         });
     }
-  }, [allData, radius, categories, baseURL, setIsLoaded]);
+  }, [allData, form.radius, form.categories, baseURL, setIsLoaded]);
 
   useEffect(() => {
     const getDetails = async (poisArray) => {
@@ -85,16 +96,23 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
       }
       return newPoisDetails;
     };
-    getDetails(selectedPois).then((data) => setPoiDetails(data));
-  }, [selectedPois, baseURL]);
+    if (routeData.selectedPoisArray) {
+      getDetails(routeData.selectedPoisArray).then((data) =>
+        setRouteData({ ...routeData, poiDetails: data })
+      );
+      console.log(routeData);
+    }
+  }, [routeData.selectedPoisArray, baseURL]);
+
+  console.log(routeData);
 
   return (
     <>
-      {isComplete && updatedRoute.features && (
+      {isComplete && routeData.selectedPois && (
         <RouteInfo
           allData={allData}
-          updatedRoute={updatedRoute}
-          selectedPois={selectedPois}
+          updatedRoute={routeData.updatedRoute}
+          selectedPois={routeData.selectedPois}
           setIsLoaded={setIsLoaded}
           setCategories={setCategories}
         />
@@ -128,37 +146,38 @@ const Map = ({ allData, radius, categories, setIsLoaded, setCategories }) => {
             <Popup>{allData.dataTo.features[0].properties.name}</Popup>
           </Marker>
         )}
-        {isComplete && updatedRoute.features && (
+        {isComplete && routeData.updatedRoute.features && (
           <>
             <Polyline
               id="line"
-              positions={updatedRoute.features[0].geometry.coordinates.map(
+              positions={routeData.updatedRoute.features[0].geometry.coordinates.map(
                 (el) => [el[1], el[0]]
               )}
             />
             <AutoZoom
               bounds={[
                 [
-                  updatedRoute.features[0].bbox[1],
-                  updatedRoute.features[0].bbox[0],
+                  routeData.updatedRoute.features[0].bbox[1],
+                  routeData.updatedRoute.features[0].bbox[0],
                 ],
                 [
-                  updatedRoute.features[0].bbox[3],
-                  updatedRoute.features[0].bbox[2],
+                  routeData.updatedRoute.features[0].bbox[3],
+                  routeData.updatedRoute.features[0].bbox[2],
                 ],
               ]}
             />
           </>
         )}
-        {isComplete && buffer.geometry && (
+        {isComplete && form.buffer.geometry && (
           <Polygon
             pathOptions={greenOptions}
-            positions={buffer.geometry.coordinates}
+            positions={form.buffer.geometry.coordinates}
           />
         )}
         {isComplete &&
-          poiDetails.length > 0 &&
-          poiDetails.map((el) => (
+          routeData.poiDetails &&
+          routeData.poiDetails.length > 0 &&
+          routeData.poiDetails.map((el) => (
             <CircleMarker
               key={el.xid}
               pathOptions={redOptions}
