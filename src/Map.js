@@ -22,6 +22,7 @@ const Map = ({
   setRouteData,
 }) => {
   const [isComplete, setIsComplete] = useState(false);
+  const [poiDetails, setPoiDetails] = useState([]);
   console.log(routeData.allPois);
 
   const greenOptions = { color: "green" };
@@ -36,7 +37,8 @@ const Map = ({
       allData.dataFrom.features &&
       allData.dataTo.features &&
       form.buffer &&
-      form.categories.length > 0
+      form.categories.length > 0 &&
+      form.timeInterval
     ) {
       const coordinates = [
         allData.dataFrom.features[0].geometry.coordinates,
@@ -44,8 +46,7 @@ const Map = ({
       ];
       const getRouteData = {
         coordinates: coordinates,
-        radius: form.buffer,
-        categories: form.categories,
+        ...form,
       };
       fetch(`${baseURL}itinerary`, {
         method: "POST",
@@ -71,7 +72,7 @@ const Map = ({
           setIsLoaded(false);
         });
     }
-  }, [allData, form.radius, form.categories, baseURL, setIsLoaded]);
+  }, [allData, form, baseURL, setIsLoaded, setRouteData]);
 
   useEffect(() => {
     const getDetails = async (poisArray) => {
@@ -86,7 +87,7 @@ const Map = ({
     };
     if (routeData.selectedPoisArray) {
       getDetails(routeData.selectedPoisArray).then((data) =>
-        setRouteData({ ...routeData, poiDetails: data })
+        setPoiDetails(data)
       );
     }
   }, [routeData.selectedPoisArray, baseURL]);
@@ -160,9 +161,8 @@ const Map = ({
           />
         )}
         {isComplete &&
-          routeData.poiDetails &&
-          routeData.poiDetails.length > 0 &&
-          routeData.poiDetails.map((el) => (
+          poiDetails.length > 0 &&
+          poiDetails.map((el) => (
             <CircleMarker
               key={el.xid}
               pathOptions={redOptions}

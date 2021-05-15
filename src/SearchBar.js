@@ -1,20 +1,10 @@
 import React, { useRef } from "react";
 
-const SearchBar = ({
-  allData,
-  setAllData,
-  setRadius,
-  setCategories,
-  categories,
-  setIsLoaded,
-  form,
-  setForm,
-  routeData,
-  setRouteData,
-}) => {
+const SearchBar = ({ allData, setAllData, setIsLoaded, form, setForm }) => {
   const from = useRef("");
   const whereTo = useRef("");
   const buffer = useRef("");
+  const timeInterval = useRef("");
   const categoryList = [
     "religion",
     "natural",
@@ -22,6 +12,7 @@ const SearchBar = ({
     "cultural",
     "architecture",
   ];
+  const timeIntervals = [7200, 10800, 14400, 21600, 28800];
 
   const baseURL =
     process.env.REACT_APP_MODE === "prod"
@@ -33,9 +24,14 @@ const SearchBar = ({
       from.current.value &&
       whereTo.current.value &&
       buffer.current.value &&
-      form.categories.length > 0
+      form.categories.length > 0 &&
+      timeInterval.current.value
     ) {
-      setForm({ ...form, buffer: buffer.current.value });
+      setForm({
+        ...form,
+        buffer: buffer.current.value,
+        timeInterval: timeInterval.current.value,
+      });
 
       // Geocode origin
       const dataFrom1 = await fetch(
@@ -127,6 +123,17 @@ const SearchBar = ({
             {el.charAt(0).toUpperCase() + el.slice(1)}
           </button>
         ))}
+      </div>
+      <div>
+        <label htmlFor="time">How often would you like to stop?</label>
+        <select id="time" ref={timeInterval}>
+          <option value=""></option>
+          {timeIntervals.map((el) => (
+            <option key={el} value={el}>
+              {el / 3600} hours
+            </option>
+          ))}
+        </select>
       </div>
       <button type="button" id="search" onClick={search}>
         Calculate your itinerary
