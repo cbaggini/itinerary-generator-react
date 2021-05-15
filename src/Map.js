@@ -15,22 +15,14 @@ import RouteInfo from "./RouteInfo";
 
 const Map = ({
   allData,
-  radius,
-  categories,
   setIsLoaded,
-  setCategories,
   form,
   setForm,
   routeData,
   setRouteData,
 }) => {
-  const [buffer, setBuffer] = useState({});
-  const [allPois, setAllPois] = useState([]);
-  const [selectedPois, setSelectedPois] = useState([]);
-  const [updatedRoute, setUpdatedRoute] = useState({});
   const [isComplete, setIsComplete] = useState(false);
-  const [poiDetails, setPoiDetails] = useState([]);
-  console.log(allPois);
+  console.log(routeData.allPois);
 
   const greenOptions = { color: "green" };
   const redOptions = { color: "red" };
@@ -67,10 +59,6 @@ const Map = ({
         .then((data) => {
           if (data.selectedPoisArray) {
             setRouteData({ ...data });
-            // setBuffer(data.buffered);
-            // setSelectedPois(data.selectedPoisArray);
-            // setUpdatedRoute(data.updatedRoute);
-            // setAllPois(data.pois);
             setIsComplete(true);
           } else {
             alert("Could not calculate route. Please try another search");
@@ -100,11 +88,8 @@ const Map = ({
       getDetails(routeData.selectedPoisArray).then((data) =>
         setRouteData({ ...routeData, poiDetails: data })
       );
-      console.log(routeData);
     }
   }, [routeData.selectedPoisArray, baseURL]);
-
-  console.log(routeData);
 
   return (
     <>
@@ -114,7 +99,7 @@ const Map = ({
           updatedRoute={routeData.updatedRoute}
           selectedPois={routeData.selectedPois}
           setIsLoaded={setIsLoaded}
-          setCategories={setCategories}
+          setForm={setForm}
         />
       )}
       <MapContainer center={[56, -1]} zoom={5} scrollWheelZoom={false}>
