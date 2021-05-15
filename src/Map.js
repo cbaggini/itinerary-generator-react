@@ -48,6 +48,7 @@ const Map = ({
         coordinates: coordinates,
         ...form,
       };
+      console.log(getRouteData);
       fetch(`${baseURL}itinerary`, {
         method: "POST",
         headers: {
@@ -94,11 +95,11 @@ const Map = ({
 
   return (
     <>
-      {isComplete && routeData.selectedPois && (
+      {isComplete && routeData.selectedPoisArray && (
         <RouteInfo
           allData={allData}
           updatedRoute={routeData.updatedRoute}
-          selectedPois={routeData.selectedPois}
+          selectedPois={routeData.selectedPoisArray}
           setIsLoaded={setIsLoaded}
           setForm={setForm}
         />
