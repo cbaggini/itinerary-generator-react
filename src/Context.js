@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
+import axios from "axios";
 
 const baseURL =
   process.env.REACT_APP_MODE === "prod"
@@ -7,12 +8,10 @@ const baseURL =
 
 export const myContext = createContext({});
 export default function Context(props) {
-  const [userObject, setUserObject] = useState();
+  const [userObject, setUserObject] = useState({});
 
   useEffect(() => {
-    fetch(baseURL + "getuser", {
-      credentials: "include",
-    }).then((res) => {
+    axios.get(baseURL + "getuser", { withCredentials: true }).then((res) => {
       console.log(res);
       if (res.data) {
         setUserObject(res.data);

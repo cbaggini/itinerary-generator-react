@@ -1,7 +1,7 @@
 import React from "react";
 
 const Latest = () => {
-  return <div></div>;
+  return <div>Latest</div>;
 };
 
 export default Latest;
