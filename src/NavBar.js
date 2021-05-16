@@ -16,13 +16,21 @@ const NavBar = () => {
   };
 
   return (
-    <nav>
-      <ul>
+    <nav className="navBarWrapper">
+      <ul className="navBar">
         <li>
           <Link to="/">Home</Link>
         </li>
+        <li>
+          <Link to="/latest">Latest trips saved</Link>
+        </li>
         {userObject ? (
-          <li onClick={logout}>Logout </li>
+          <>
+            <li>
+              <Link to="/profile">Latest saved trips</Link>
+            </li>
+            <li onClick={logout}>Logout </li>
+          </>
         ) : (
           <li>
             <Link to="/login">Login</Link>
