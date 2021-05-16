@@ -23,7 +23,6 @@ const Map = ({
 }) => {
   const [isComplete, setIsComplete] = useState(false);
   const [poiDetails, setPoiDetails] = useState([]);
-  console.log(routeData.allPois);
 
   const greenOptions = { color: "green" };
   const redOptions = { color: "red" };
@@ -48,11 +47,10 @@ const Map = ({
         coordinates: coordinates,
         ...form,
       };
-      console.log(getRouteData);
       fetch(`${baseURL}itinerary`, {
         method: "POST",
         headers: {
-          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Origin": "http://localhost:8080",
           "Content-Type": "application/json",
         },
         body: JSON.stringify(getRouteData),
