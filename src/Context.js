@@ -7,7 +7,7 @@ const baseURL =
 
 export const myContext = createContext({});
 export default function Context(props) {
-  const [userObject, setUserObject] = useState({});
+  const [userObject, setUserObject] = useState();
 
   useEffect(() => {
     fetch(baseURL + "getuser", {
