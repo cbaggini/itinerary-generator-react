@@ -4,10 +4,12 @@ const SavedTrip = ({
   allData,
   form,
   routeData,
+  poiDetails1,
   updated,
   isPublic,
   profile,
   togglePrivacy,
+  deleteTrip,
   _id,
 }) => {
   return (
@@ -28,6 +30,7 @@ const SavedTrip = ({
                 allData_p: allData,
                 form_p: form,
                 routeData_p: routeData,
+                poiDetails1: poiDetails1,
               },
             }}
           >
@@ -46,34 +49,12 @@ const SavedTrip = ({
               </button>
             </td>
             <td>
-              <Link
-                to={{
-                  pathname: "/",
-                  state: {
-                    isLoaded_p: true,
-                    allData_p: allData,
-                    form_p: form,
-                    routeData_p: routeData,
-                  },
-                }}
-              >
-                <button>Edit</button>
-              </Link>
+              <button>Edit</button>
             </td>
             <td>
-              <Link
-                to={{
-                  pathname: "/",
-                  state: {
-                    isLoaded_p: true,
-                    allData_p: allData,
-                    form_p: form,
-                    routeData_p: routeData,
-                  },
-                }}
-              >
-                <button>Delete</button>
-              </Link>
+              <button type="button" onClick={() => deleteTrip(_id)}>
+                Delete
+              </button>
             </td>
           </>
         )}

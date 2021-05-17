@@ -11,6 +11,7 @@ const baseURL =
 const Profile = () => {
   const userObject = useContext(myContext);
   const [myTrips, setMyTrips] = useState([]);
+  console.log(myTrips);
 
   const togglePrivacy = (tripId, isPublic) => {
     fetch(`${baseURL}trips/${tripId}`, {
@@ -43,6 +44,36 @@ const Profile = () => {
       });
   };
 
+  const deleteTrip = (tripId) => {
+    fetch(`${baseURL}trips/${tripId}`, {
+      method: "DELETE",
+      headers: {
+        "Access-Control-Allow-Origin": baseURL,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message === "Successfully deleted.") {
+          fetch(baseURL + "trips/" + userObject._id)
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.error) {
+                alert("Could not load your trips");
+              } else {
+                setMyTrips(data);
+              }
+            });
+        } else {
+          alert("Could not delete trip");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Could not delete trip");
+      });
+  };
+
   useEffect(() => {
     if (userObject._id) {
       fetch(baseURL + "trips/" + userObject._id)
@@ -71,7 +102,9 @@ const Profile = () => {
                     profile={true}
                     isPublic={el.public}
                     togglePrivacy={togglePrivacy}
+                    deleteTrip={deleteTrip}
                     {...el}
+                    poiDetails1={el.poiDetails}
                     key={el._id}
                   />
                 ))}

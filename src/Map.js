@@ -19,10 +19,13 @@ const Map = ({
   form,
   setForm,
   routeData,
+  poiDetails1,
   setRouteData,
+  setAllData,
 }) => {
+  console.log(poiDetails1);
   const [isComplete, setIsComplete] = useState(false);
-  const [poiDetails, setPoiDetails] = useState([]);
+  const [poiDetails, setPoiDetails] = useState(poiDetails1);
 
   const greenOptions = { color: "green" };
   const redOptions = { color: "red" };
@@ -37,7 +40,8 @@ const Map = ({
       allData.dataTo.features &&
       form.buffer &&
       form.categories.length > 0 &&
-      form.timeInterval
+      form.timeInterval &&
+      poiDetails1.length === 0
     ) {
       const coordinates = [
         allData.dataFrom.features[0].geometry.coordinates,
@@ -71,7 +75,13 @@ const Map = ({
           setIsLoaded(false);
         });
     }
-  }, [allData, form, baseURL, setIsLoaded, setRouteData]);
+  }, [allData, form, baseURL, setIsLoaded, setRouteData, poiDetails1.length]);
+
+  useEffect(() => {
+    if (poiDetails1.length > 0) {
+      setIsComplete(true);
+    }
+  }, [poiDetails1.length]);
 
   useEffect(() => {
     const getDetails = async (poisArray) => {
@@ -84,12 +94,12 @@ const Map = ({
       }
       return newPoisDetails;
     };
-    if (routeData.selectedPoisArray) {
+    if (routeData.selectedPoisArray && poiDetails1.length === 0) {
       getDetails(routeData.selectedPoisArray).then((data) =>
         setPoiDetails(data)
       );
     }
-  }, [routeData.selectedPoisArray, baseURL]);
+  }, [routeData.selectedPoisArray, baseURL, poiDetails1.length]);
 
   console.log(routeData);
 
@@ -100,8 +110,11 @@ const Map = ({
           allData={allData}
           routeData={routeData}
           form={form}
+          poiDetails={poiDetails}
           setIsLoaded={setIsLoaded}
           setForm={setForm}
+          setAllData={setAllData}
+          setRouteData={setRouteData}
         />
       )}
       <MapContainer center={[56, -1]} zoom={5} scrollWheelZoom={false}>

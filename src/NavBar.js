@@ -26,7 +26,16 @@ const NavBar = () => {
     <nav className="navBarWrapper">
       <ul className="navBar">
         <li>
-          <Link to="/">Home</Link>
+          <Link
+            to={{
+              pathname: "/",
+              state: {
+                reset: true,
+              },
+            }}
+          >
+            Home
+          </Link>
         </li>
         <li>
           <Link to="/latest">Latest saved trips</Link>

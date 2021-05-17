@@ -6,7 +6,16 @@ const baseURL =
     ? "https://itinerary-generator-node.nw.r.appspot.com/"
     : "http://localhost:8080/";
 
-const RouteInfo = ({ allData, routeData, form, setIsLoaded, setForm }) => {
+const RouteInfo = ({
+  allData,
+  routeData,
+  form,
+  poiDetails,
+  setIsLoaded,
+  setForm,
+  setAllData,
+  setRouteData,
+}) => {
   const userObject = useContext(myContext);
 
   const saveTrip = () => {
@@ -20,6 +29,7 @@ const RouteInfo = ({ allData, routeData, form, setIsLoaded, setForm }) => {
         allData,
         routeData,
         form,
+        poiDetails,
         userId: userObject._id,
         public: true,
         created: new Date(),
@@ -66,6 +76,8 @@ const RouteInfo = ({ allData, routeData, form, setIsLoaded, setForm }) => {
           onClick={() => {
             setIsLoaded(false);
             setForm({});
+            setAllData({ dataFrom: {}, dataTo: {} });
+            setRouteData({});
           }}
         >
           New itinerary
