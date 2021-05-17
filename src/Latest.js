@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SavedTrip from "./SavedTrip";
+import TableHead from "./TableHead";
 
 const baseURL =
   process.env.REACT_APP_MODE === "prod"
@@ -22,17 +23,7 @@ const Latest = () => {
   console.log(latestTrips);
   return (
     <table className="table">
-      <thead>
-        <tr>
-          <th scope="col">From</th>
-          <th scope="col">To</th>
-          <th scope="col">Deviation (km)</th>
-          <th scope="col">Attraction types</th>
-          <th scope="col">Frequency of stops</th>
-          <th scope="col">Last updated on</th>
-          <th scope="col">See itinerary</th>
-        </tr>
-      </thead>
+      <TableHead />
       <tbody>
         {latestTrips.map((el) => (
           <SavedTrip {...el} key={el._id} />
