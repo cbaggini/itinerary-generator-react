@@ -71,7 +71,8 @@ button {
 }
 
 #search,
-#newSearch {
+#newSearch,
+#save {
   max-width: 150px;
   background-color: lightblue;
   padding: 0.5rem;

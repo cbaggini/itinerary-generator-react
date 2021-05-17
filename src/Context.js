@@ -15,6 +15,8 @@ export default function Context(props) {
       console.log(res);
       if (res.data) {
         setUserObject(res.data);
+      } else {
+        setUserObject({});
       }
     });
   }, []);

@@ -18,18 +18,10 @@ function App() {
       <Router>
         <NavBar />
         <Switch>
-          <Route exact path="/">
-            <Main />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/latest">
-            <Latest />
-            <Route path="/profile">
-              <Profile />
-            </Route>
-          </Route>
+          <Route exact path="/" component={Main} />
+          <Route path="/login" component={Login} />
+          <Route path="/latest" component={Latest} />
+          <Route path="/profile" component={Profile} />
         </Switch>
         <Footer />
       </Router>

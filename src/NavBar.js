@@ -29,7 +29,7 @@ const NavBar = () => {
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/latest">Latest trips saved</Link>
+          <Link to="/latest">Latest saved trips</Link>
         </li>
         {userObject.username ? (
           <>

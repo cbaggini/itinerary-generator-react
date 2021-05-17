@@ -50,7 +50,7 @@ const Map = ({
       fetch(`${baseURL}itinerary`, {
         method: "POST",
         headers: {
-          "Access-Control-Allow-Origin": "http://localhost:8080",
+          "Access-Control-Allow-Origin": baseURL,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(getRouteData),
@@ -91,13 +91,15 @@ const Map = ({
     }
   }, [routeData.selectedPoisArray, baseURL]);
 
+  console.log(routeData);
+
   return (
     <>
       {isComplete && routeData.selectedPoisArray && (
         <RouteInfo
           allData={allData}
-          updatedRoute={routeData.updatedRoute}
-          selectedPois={routeData.selectedPoisArray}
+          routeData={routeData}
+          form={form}
           setIsLoaded={setIsLoaded}
           setForm={setForm}
         />
@@ -153,10 +155,10 @@ const Map = ({
             />
           </>
         )}
-        {isComplete && form.buffer.geometry && (
+        {isComplete && routeData.buffered && routeData.buffered.geometry && (
           <Polygon
             pathOptions={greenOptions}
-            positions={form.buffer.geometry.coordinates}
+            positions={routeData.buffered.geometry.coordinates}
           />
         )}
         {isComplete &&
