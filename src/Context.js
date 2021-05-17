@@ -12,7 +12,6 @@ export default function Context(props) {
 
   useEffect(() => {
     axios.get(baseURL + "getuser", { withCredentials: true }).then((res) => {
-      console.log(res);
       if (res.data) {
         setUserObject(res.data);
       }

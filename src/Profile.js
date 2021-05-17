@@ -11,7 +11,6 @@ const baseURL =
 const Profile = () => {
   const userObject = useContext(myContext);
   const [myTrips, setMyTrips] = useState([]);
-  console.log(myTrips);
 
   const togglePrivacy = (tripId, isPublic) => {
     fetch(`${baseURL}trips/${tripId}`, {

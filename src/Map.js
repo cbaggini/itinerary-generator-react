@@ -23,7 +23,6 @@ const Map = ({
   setRouteData,
   setAllData,
 }) => {
-  console.log(poiDetails1);
   const [isComplete, setIsComplete] = useState(false);
   const [poiDetails, setPoiDetails] = useState(poiDetails1);
 
@@ -100,8 +99,6 @@ const Map = ({
       );
     }
   }, [routeData.selectedPoisArray, baseURL, poiDetails1.length]);
-
-  console.log(routeData);
 
   return (
     <>

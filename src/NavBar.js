@@ -15,7 +15,6 @@ const NavBar = () => {
     axios
       .get(baseURL + "auth/logout", { withCredentials: true })
       .then((res) => {
-        console.log(res);
         if (res.data === "done") {
           window.location.href = "/";
         }

@@ -20,7 +20,6 @@ const Latest = () => {
         }
       });
   }, []);
-  console.log(latestTrips);
   return (
     <table className="table">
       <TableHead />
