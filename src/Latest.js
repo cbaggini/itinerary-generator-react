@@ -26,7 +26,7 @@ const Latest = () => {
       <TableHead />
       <tbody>
         {latestTrips.map((el) => (
-          <SavedTrip {...el} key={el._id} />
+          <SavedTrip {...el} isPublic={el.public} key={el._id} />
         ))}
       </tbody>
     </table>

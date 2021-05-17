@@ -1,4 +1,4 @@
-const TableHead = () => {
+const TableHead = ({ profile }) => {
   return (
     <thead>
       <tr>
@@ -9,6 +9,13 @@ const TableHead = () => {
         <th scope="col">Frequency of stops</th>
         <th scope="col">Last updated on</th>
         <th scope="col">See itinerary</th>
+        {profile && (
+          <>
+            <th scope="col">Status</th>
+            <th scope="col">Edit trip</th>
+            <th scope="col">Delete trip</th>
+          </>
+        )}
       </tr>
     </thead>
   );

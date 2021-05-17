@@ -1,6 +1,15 @@
 import { Link } from "react-router-dom";
 
-const SavedTrip = ({ allData, form, routeData, updated }) => {
+const SavedTrip = ({
+  allData,
+  form,
+  routeData,
+  updated,
+  isPublic,
+  profile,
+  togglePrivacy,
+  _id,
+}) => {
   return (
     <>
       <tr>
@@ -25,6 +34,49 @@ const SavedTrip = ({ allData, form, routeData, updated }) => {
             <button>See trip</button>
           </Link>
         </td>
+        {profile && (
+          <>
+            <td>
+              {isPublic ? "Public" : "Private"}
+              <button
+                type="button"
+                onClick={() => togglePrivacy(_id, isPublic)}
+              >
+                Change
+              </button>
+            </td>
+            <td>
+              <Link
+                to={{
+                  pathname: "/",
+                  state: {
+                    isLoaded_p: true,
+                    allData_p: allData,
+                    form_p: form,
+                    routeData_p: routeData,
+                  },
+                }}
+              >
+                <button>Edit</button>
+              </Link>
+            </td>
+            <td>
+              <Link
+                to={{
+                  pathname: "/",
+                  state: {
+                    isLoaded_p: true,
+                    allData_p: allData,
+                    form_p: form,
+                    routeData_p: routeData,
+                  },
+                }}
+              >
+                <button>Delete</button>
+              </Link>
+            </td>
+          </>
+        )}
       </tr>
     </>
   );

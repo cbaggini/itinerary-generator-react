@@ -12,6 +12,37 @@ const Profile = () => {
   const userObject = useContext(myContext);
   const [myTrips, setMyTrips] = useState([]);
 
+  const togglePrivacy = (tripId, isPublic) => {
+    fetch(`${baseURL}trips/${tripId}`, {
+      method: "PUT",
+      headers: {
+        "Access-Control-Allow-Origin": baseURL,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ newData: { public: !isPublic } }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message === "Successfully saved.") {
+          fetch(baseURL + "trips/" + userObject._id)
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.error) {
+                alert("Could not load your trips");
+              } else {
+                setMyTrips(data);
+              }
+            });
+        } else {
+          alert("Could not update trip");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Could not update trip");
+      });
+  };
+
   useEffect(() => {
     if (userObject._id) {
       fetch(baseURL + "trips/" + userObject._id)
@@ -28,15 +59,21 @@ const Profile = () => {
 
   return (
     <div>
-      {userObject ? (
+      {userObject.username ? (
         <div>
           <h3>{`Welcome back, ${userObject.username}`}</h3>
           {myTrips.length > 0 ? (
             <table className="table">
-              <TableHead />
+              <TableHead profile={true} />
               <tbody>
                 {myTrips.map((el) => (
-                  <SavedTrip {...el} key={el._id} />
+                  <SavedTrip
+                    profile={true}
+                    isPublic={el.public}
+                    togglePrivacy={togglePrivacy}
+                    {...el}
+                    key={el._id}
+                  />
                 ))}
               </tbody>
             </table>
