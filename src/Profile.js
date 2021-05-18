@@ -93,7 +93,7 @@ const Profile = () => {
         <div>
           <h3>{`Welcome back, ${userObject.username}`}</h3>
           {myTrips.length > 0 ? (
-            <table className="table">
+            <table className="table m-5">
               <TableHead profile={true} />
               <tbody>
                 {myTrips.map((el) => (
@@ -110,7 +110,7 @@ const Profile = () => {
               </tbody>
             </table>
           ) : (
-            <p>You have not saved any trips yet</p>
+            <div className="margin">You have not saved any trips yet</div>
           )}
         </div>
       ) : (

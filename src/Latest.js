@@ -21,7 +21,7 @@ const Latest = () => {
       });
   }, []);
   return (
-    <table className="table">
+    <table className="table m-5">
       <TableHead />
       <tbody>
         {latestTrips.map((el) => (

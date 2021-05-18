@@ -127,6 +127,18 @@ footer {
   overflow-y: scroll;
 }
 
+.editPrivacy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h3,
+.margin {
+  margin: 2rem;
+  padding: 2rem;
+}
+
 .navBarWrapper {
   width: 100vw;
   height: 50px;

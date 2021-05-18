@@ -6,7 +6,7 @@ const PoiPopup = ({ poi }) => {
     : "No description available";
   return (
     <>
-      <h1>{poi.name}</h1>
+      <h4>{poi.name}</h4>
       <img className="popupImg" alt={poi.name} src={poi.preview.source}></img>
       <div
         dangerouslySetInnerHTML={{

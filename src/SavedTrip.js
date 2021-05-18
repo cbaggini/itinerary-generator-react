@@ -39,14 +39,17 @@ const SavedTrip = ({
               },
             }}
           >
-            <button>See trip</button>
+            <button className="btn btn-primary">See trip</button>
           </Link>
         </td>
         {profile && (
           <>
-            <td>
-              {isPublic ? "Public" : "Private"}
+            <td className="editPrivacy">
+              <p>
+                <strong>{isPublic ? "Public" : "Private"}</strong>
+              </p>
               <button
+                className="btn btn-info"
                 type="button"
                 onClick={() => togglePrivacy(_id, isPublic)}
               >
@@ -62,11 +65,15 @@ const SavedTrip = ({
                   },
                 }}
               >
-                <button>Edit</button>
+                <button className="btn btn-warning">Edit</button>
               </Link>
             </td>
             <td>
-              <button type="button" onClick={() => deleteTrip(_id)}>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={() => deleteTrip(_id)}
+              >
                 Delete
               </button>
             </td>
