@@ -8,20 +8,29 @@ function Main() {
   const location = useLocation();
   let isLoaded_p = false;
   let allData_p = { dataFrom: {}, dataTo: {} };
-  let form_p = {};
+  let form_p = {
+    from: "",
+    to: "",
+    buffer: "",
+    categories: [],
+    timeInterval: "",
+  };
   let routeData_p = {};
   let poiDetails1 = [];
   let reset = false;
   if (location.state && location.state.isLoaded_p) {
     isLoaded_p = location.state.isLoaded_p;
     allData_p = location.state.allData_p;
-    form_p = location.state.form_p;
     routeData_p = location.state.routeData_p;
     poiDetails1 = location.state.poiDetails1;
   }
 
   if (location.state && location.state.reset) {
     reset = location.state.reset;
+  }
+
+  if (location.state && location.state.form_p) {
+    form_p = location.state.form_p;
   }
 
   const [allData, setAllData] = useState(allData_p);
@@ -32,7 +41,13 @@ function Main() {
   useEffect(() => {
     if (reset) {
       setIsLoaded(false);
-      setForm({});
+      setForm({
+        from: "",
+        to: "",
+        buffer: "",
+        categories: [],
+        timeInterval: "",
+      });
       setAllData({ dataFrom: {}, dataTo: {} });
       setRouteData({});
     }

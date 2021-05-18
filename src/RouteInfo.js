@@ -75,7 +75,13 @@ const RouteInfo = ({
           id="newSearch"
           onClick={() => {
             setIsLoaded(false);
-            setForm({});
+            setForm({
+              from: "",
+              to: "",
+              buffer: "",
+              categories: [],
+              timeInterval: "",
+            });
             setAllData({ dataFrom: {}, dataTo: {} });
             setRouteData({});
           }}

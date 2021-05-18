@@ -1,10 +1,10 @@
 import React, { useRef } from "react";
 
 const SearchBar = ({ allData, setAllData, setIsLoaded, form, setForm }) => {
-  const from = useRef("");
-  const whereTo = useRef("");
-  const buffer = useRef("");
-  const timeInterval = useRef("");
+  const from = useRef(form.from);
+  const whereTo = useRef(form.to);
+  const buffer = useRef(form.buffer);
+  const timeInterval = useRef(form.timeInterval);
   const categoryList = [
     "religion",
     "natural",
@@ -13,7 +13,7 @@ const SearchBar = ({ allData, setAllData, setIsLoaded, form, setForm }) => {
     "architecture",
   ];
   const timeIntervals = [7200, 10800, 14400, 21600, 28800];
-
+  console.log(form);
   const baseURL =
     process.env.REACT_APP_MODE === "prod"
       ? "https://itinerary-generator-node.nw.r.appspot.com/"
@@ -77,15 +77,15 @@ const SearchBar = ({ allData, setAllData, setIsLoaded, form, setForm }) => {
             )
           );
         setForm({ ...form, categories: newCategories });
-        e.target.style.backgroundColor = "grey";
+        e.target.className = "attraction grey";
       } else {
         const newCategories = [...form.categories, e.target.value];
         setForm({ ...form, categories: newCategories });
-        e.target.style.backgroundColor = "green";
+        e.target.className = "attraction green";
       }
     } else {
       setForm({ ...form, categories: [e.target.value] });
-      e.target.style.backgroundColor = "green";
+      e.target.className = "attraction green";
     }
   };
 
@@ -93,15 +93,28 @@ const SearchBar = ({ allData, setAllData, setIsLoaded, form, setForm }) => {
     <div className="searchBar">
       <h1>Roadtrip itinerary generator</h1>
       <label htmlFor="from">Where are you leaving from?</label>
-      <input id="from" type="text" ref={from} placeholder="from"></input>
+      <input
+        id="from"
+        type="text"
+        defaultValue={form.from}
+        ref={from}
+        placeholder="from"
+      ></input>
       <label htmlFor="to">Where are you going to?</label>
-      <input id="to" type="text" ref={whereTo} placeholder="to"></input>
+      <input
+        id="to"
+        type="text"
+        defaultValue={form.to}
+        ref={whereTo}
+        placeholder="to"
+      ></input>
       <div className="buffer">
         <label htmlFor="buffer">
           How many kilometers do you want to deviate from your route ? (between
           1 and 30)
         </label>
         <input
+          defaultValue={form.buffer}
           type="number"
           id="buffer"
           name="buffer"
@@ -115,7 +128,11 @@ const SearchBar = ({ allData, setAllData, setIsLoaded, form, setForm }) => {
         {categoryList.map((el) => (
           <button
             type="button"
-            className="attraction"
+            className={
+              form.categories.includes(el)
+                ? "attraction green"
+                : "attraction grey"
+            }
             key={el}
             value={el}
             onClick={toggleCategories}
@@ -126,7 +143,7 @@ const SearchBar = ({ allData, setAllData, setIsLoaded, form, setForm }) => {
       </div>
       <div>
         <label htmlFor="time">How often would you like to stop?</label>
-        <select id="time" ref={timeInterval}>
+        <select id="time" defaultValue={form.timeInterval} ref={timeInterval}>
           <option value=""></option>
           {timeIntervals.map((el) => (
             <option key={el} value={el}>

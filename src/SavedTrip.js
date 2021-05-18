@@ -12,6 +12,11 @@ const SavedTrip = ({
   deleteTrip,
   _id,
 }) => {
+  const newForm = {
+    ...form,
+    from: allData.dataFrom.features[0].properties.name,
+    to: allData.dataTo.features[0].properties.name,
+  };
   return (
     <>
       <tr>
@@ -49,7 +54,16 @@ const SavedTrip = ({
               </button>
             </td>
             <td>
-              <button>Edit</button>
+              <Link
+                to={{
+                  pathname: "/",
+                  state: {
+                    form_p: newForm,
+                  },
+                }}
+              >
+                <button>Edit</button>
+              </Link>
             </td>
             <td>
               <button type="button" onClick={() => deleteTrip(_id)}>

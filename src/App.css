@@ -70,6 +70,14 @@ button {
   border-radius: 5px;
 }
 
+.green {
+  background-color: green;
+}
+
+.grey {
+  background-color: grey;
+}
+
 #search,
 #newSearch,
 #save {
