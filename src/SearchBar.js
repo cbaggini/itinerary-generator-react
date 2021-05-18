@@ -13,7 +13,6 @@ const SearchBar = ({ allData, setAllData, setIsLoaded, form, setForm }) => {
     "architecture",
   ];
   const timeIntervals = [7200, 10800, 14400, 21600, 28800];
-  console.log(form);
   const baseURL =
     process.env.REACT_APP_MODE === "prod"
       ? "https://itinerary-generator-node.nw.r.appspot.com/"
