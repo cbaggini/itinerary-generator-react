@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { myContext } from "./Context";
-import TableHead from "./TableHead";
 import SavedTrip from "./SavedTrip";
 
 const baseURL =
@@ -11,6 +10,18 @@ const baseURL =
 const Profile = () => {
   const userObject = useContext(myContext);
   const [myTrips, setMyTrips] = useState([]);
+
+  const fetchTrips = () => {
+    fetch(baseURL + "trips/" + userObject._id)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          alert("Could not load your trips");
+        } else {
+          setMyTrips(data);
+        }
+      });
+  };
 
   const togglePrivacy = (tripId, isPublic) => {
     fetch(`${baseURL}trips/${tripId}`, {
@@ -24,15 +35,7 @@ const Profile = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.message === "Successfully saved.") {
-          fetch(baseURL + "trips/" + userObject._id)
-            .then((res) => res.json())
-            .then((data) => {
-              if (data.error) {
-                alert("Could not load your trips");
-              } else {
-                setMyTrips(data);
-              }
-            });
+          fetchTrips();
         } else {
           alert("Could not update trip");
         }
@@ -54,15 +57,7 @@ const Profile = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.message === "Successfully deleted.") {
-          fetch(baseURL + "trips/" + userObject._id)
-            .then((res) => res.json())
-            .then((data) => {
-              if (data.error) {
-                alert("Could not load your trips");
-              } else {
-                setMyTrips(data);
-              }
-            });
+          fetchTrips();
         } else {
           alert("Could not delete trip");
         }
@@ -92,23 +87,21 @@ const Profile = () => {
       {userObject.username ? (
         <div>
           <h3>{`Welcome back, ${userObject.username}`}</h3>
+          <h2>Your saved trips:</h2>
           {myTrips.length > 0 ? (
-            <table className="table m-5">
-              <TableHead profile={true} />
-              <tbody>
-                {myTrips.map((el) => (
-                  <SavedTrip
-                    profile={true}
-                    isPublic={el.public}
-                    togglePrivacy={togglePrivacy}
-                    deleteTrip={deleteTrip}
-                    {...el}
-                    poiDetails1={el.poiDetails}
-                    key={el._id}
-                  />
-                ))}
-              </tbody>
-            </table>
+            <section className="tripContainer">
+              {myTrips.map((el) => (
+                <SavedTrip
+                  profile={true}
+                  isPublic={el.public}
+                  togglePrivacy={togglePrivacy}
+                  deleteTrip={deleteTrip}
+                  {...el}
+                  poiDetails1={el.poiDetails}
+                  key={el._id}
+                />
+              ))}
+            </section>
           ) : (
             <div className="margin">You have not saved any trips yet</div>
           )}

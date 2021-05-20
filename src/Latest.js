@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import SavedTrip from "./SavedTrip";
-import TableHead from "./TableHead";
 
 const baseURL =
   process.env.REACT_APP_MODE === "prod"
@@ -21,19 +20,16 @@ const Latest = () => {
       });
   }, []);
   return (
-    <table className="table m-5">
-      <TableHead />
-      <tbody>
-        {latestTrips.map((el) => (
-          <SavedTrip
-            {...el}
-            isPublic={el.public}
-            poiDetails1={el.poiDetails}
-            key={el._id}
-          />
-        ))}
-      </tbody>
-    </table>
+    <section className="tripContainer">
+      {latestTrips.map((el) => (
+        <SavedTrip
+          {...el}
+          isPublic={el.public}
+          poiDetails1={el.poiDetails}
+          key={el._id}
+        />
+      ))}
+    </section>
   );
 };
 

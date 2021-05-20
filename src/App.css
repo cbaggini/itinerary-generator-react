@@ -115,6 +115,22 @@ footer {
   width: 100%;
 }
 
+.tripContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.trip {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  max-width: min-content;
+  margin: 1rem;
+}
+
 .popupImg {
   height: 130px;
   width: auto;
@@ -137,6 +153,10 @@ h3,
 .margin {
   margin: 2rem;
   padding: 2rem;
+}
+
+h2 {
+  text-align: center;
 }
 
 .navBarWrapper {
