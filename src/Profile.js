@@ -10,6 +10,7 @@ const baseURL =
 const Profile = () => {
   const userObject = useContext(myContext);
   const [myTrips, setMyTrips] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const fetchTrips = () => {
     fetch(baseURL + "trips/" + userObject._id)
@@ -77,6 +78,7 @@ const Profile = () => {
             alert("Could not load your trips");
           } else {
             setMyTrips(data);
+            setIsLoaded(true);
           }
         });
     }
@@ -84,30 +86,34 @@ const Profile = () => {
 
   return (
     <div>
-      {userObject.username ? (
-        <div>
-          <h3>{`Welcome back, ${userObject.username}`}</h3>
+      {userObject.username && <h3>{`Welcome back, ${userObject.username}`}</h3>}
+      {userObject.username && !isLoaded && (
+        <div className="margin">Loading your trips, please wait...</div>
+      )}
+      {myTrips.length > 0 && isLoaded && (
+        <>
           <h2>Your saved trips:</h2>
-          {myTrips.length > 0 ? (
-            <section className="tripContainer">
-              {myTrips.map((el) => (
-                <SavedTrip
-                  profile={true}
-                  isPublic={el.public}
-                  togglePrivacy={togglePrivacy}
-                  deleteTrip={deleteTrip}
-                  {...el}
-                  poiDetails1={el.poiDetails}
-                  key={el._id}
-                />
-              ))}
-            </section>
-          ) : (
-            <div className="margin">You have not saved any trips yet</div>
-          )}
-        </div>
-      ) : (
-        "You need to log in to see your profile"
+          <section className="tripContainer">
+            {myTrips.map((el) => (
+              <SavedTrip
+                profile={true}
+                isPublic={el.public}
+                togglePrivacy={togglePrivacy}
+                deleteTrip={deleteTrip}
+                {...el}
+                poiDetails1={el.poiDetails}
+                key={el._id}
+              />
+            ))}
+          </section>
+        </>
+      )}
+
+      {myTrips.length === 0 && isLoaded && (
+        <div className="margin">You have not saved any trips yet</div>
+      )}
+      {!userObject.username && (
+        <div className="margin">You need to log in to see your profile</div>
       )}
     </div>
   );

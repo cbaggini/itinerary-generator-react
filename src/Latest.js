@@ -8,6 +8,7 @@ const baseURL =
 
 const Latest = () => {
   const [latestTrips, setLatestTrips] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     fetch(baseURL + "trips")
       .then((res) => res.json())
@@ -16,19 +17,24 @@ const Latest = () => {
           alert("Could not load latest trips");
         } else {
           setLatestTrips(data);
+          setIsLoaded(true);
         }
       });
   }, []);
   return (
     <section className="tripContainer">
-      {latestTrips.map((el) => (
-        <SavedTrip
-          {...el}
-          isPublic={el.public}
-          poiDetails1={el.poiDetails}
-          key={el._id}
-        />
-      ))}
+      {!isLoaded && (
+        <div className="margin">Loading latest trips, please wait...</div>
+      )}
+      {isLoaded &&
+        latestTrips.map((el) => (
+          <SavedTrip
+            {...el}
+            isPublic={el.public}
+            poiDetails1={el.poiDetails}
+            key={el._id}
+          />
+        ))}
     </section>
   );
 };
