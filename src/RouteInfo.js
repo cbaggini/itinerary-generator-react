@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { myContext } from "./Context";
 
 const baseURL =
@@ -6,16 +7,7 @@ const baseURL =
     ? "https://itinerary-generator-node.nw.r.appspot.com/"
     : "http://localhost:8080/";
 
-const RouteInfo = ({
-  allData,
-  routeData,
-  form,
-  poiDetails,
-  setIsLoaded,
-  setForm,
-  setAllData,
-  setRouteData,
-}) => {
+const RouteInfo = ({ allData, routeData, form, poiDetails }) => {
   const userObject = useContext(myContext);
 
   const saveTrip = () => {
@@ -70,24 +62,20 @@ const RouteInfo = ({
         ))}
       </ul>
       <div>
-        <button
-          type="button"
-          id="newSearch"
-          onClick={() => {
-            setIsLoaded(false);
-            setForm({
-              from: "",
-              to: "",
-              buffer: "",
-              categories: [],
-              timeInterval: "",
-            });
-            setAllData({ dataFrom: {}, dataTo: {} });
-            setRouteData({});
+        <Link
+          to={{
+            pathname: "/",
+            state: {
+              reset: true,
+              saved: false,
+            },
           }}
         >
-          New itinerary
-        </button>
+          <button type="button" id="newSearch">
+            New itinerary
+          </button>
+        </Link>
+
         {userObject.username ? (
           <button type="button" id="save" onClick={saveTrip}>
             Save your trip

@@ -39,6 +39,7 @@ const SavedTrip = ({
             form_p: form,
             routeData_p: routeData,
             poiDetails1: poiDetails1,
+            saved: true,
           },
         }}
       >

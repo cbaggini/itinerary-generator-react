@@ -30,6 +30,7 @@ const NavBar = () => {
               pathname: "/",
               state: {
                 reset: true,
+                saved: false,
               },
             }}
           >

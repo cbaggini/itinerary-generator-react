@@ -19,13 +19,17 @@ const Map = ({
   form,
   setForm,
   routeData,
-  poiDetails1,
+  poiDetails,
   setRouteData,
   setAllData,
+  setPoiDetails,
+  saved,
 }) => {
   const [isComplete, setIsComplete] = useState(false);
-  const [poiDetails, setPoiDetails] = useState(poiDetails1);
-
+  //const [isSaved, setIsSaved] = useState(saved);
+  console.log(poiDetails);
+  console.log(routeData);
+  console.log(saved);
   const greenOptions = { color: "green" };
   const redOptions = { color: "red" };
   const baseURL =
@@ -40,7 +44,7 @@ const Map = ({
       form.buffer &&
       form.categories.length > 0 &&
       form.timeInterval &&
-      poiDetails1.length === 0
+      !saved
     ) {
       const coordinates = [
         allData.dataFrom.features[0].geometry.coordinates,
@@ -74,13 +78,13 @@ const Map = ({
           setIsLoaded(false);
         });
     }
-  }, [allData, form, baseURL, setIsLoaded, setRouteData, poiDetails1.length]);
+  }, [allData, form, baseURL, setIsLoaded, setRouteData, saved]);
 
   useEffect(() => {
-    if (poiDetails1.length > 0) {
+    if (saved) {
       setIsComplete(true);
     }
-  }, [poiDetails1.length]);
+  }, [saved]);
 
   useEffect(() => {
     const getDetails = async (poisArray) => {
@@ -93,12 +97,12 @@ const Map = ({
       }
       return newPoisDetails;
     };
-    if (routeData.selectedPoisArray && poiDetails1.length === 0) {
+    if (routeData.selectedPoisArray && !saved) {
       getDetails(routeData.selectedPoisArray).then((data) =>
         setPoiDetails(data)
       );
     }
-  }, [routeData.selectedPoisArray, baseURL, poiDetails1.length]);
+  }, [routeData.selectedPoisArray, baseURL, saved, setPoiDetails]);
 
   return (
     <>
@@ -108,10 +112,6 @@ const Map = ({
           routeData={routeData}
           form={form}
           poiDetails={poiDetails}
-          setIsLoaded={setIsLoaded}
-          setForm={setForm}
-          setAllData={setAllData}
-          setRouteData={setRouteData}
         />
       )}
       <MapContainer center={[56, -1]} zoom={5} scrollWheelZoom={false}>
@@ -143,28 +143,30 @@ const Map = ({
             <Popup>{allData.dataTo.features[0].properties.name}</Popup>
           </Marker>
         )}
-        {isComplete && routeData.updatedRoute.features && (
-          <>
-            <Polyline
-              id="line"
-              positions={routeData.updatedRoute.features[0].geometry.coordinates.map(
-                (el) => [el[1], el[0]]
-              )}
-            />
-            <AutoZoom
-              bounds={[
-                [
-                  routeData.updatedRoute.features[0].bbox[1],
-                  routeData.updatedRoute.features[0].bbox[0],
-                ],
-                [
-                  routeData.updatedRoute.features[0].bbox[3],
-                  routeData.updatedRoute.features[0].bbox[2],
-                ],
-              ]}
-            />
-          </>
-        )}
+        {isComplete &&
+          routeData.updatedRoute &&
+          routeData.updatedRoute.features && (
+            <>
+              <Polyline
+                id="line"
+                positions={routeData.updatedRoute.features[0].geometry.coordinates.map(
+                  (el) => [el[1], el[0]]
+                )}
+              />
+              <AutoZoom
+                bounds={[
+                  [
+                    routeData.updatedRoute.features[0].bbox[1],
+                    routeData.updatedRoute.features[0].bbox[0],
+                  ],
+                  [
+                    routeData.updatedRoute.features[0].bbox[3],
+                    routeData.updatedRoute.features[0].bbox[2],
+                  ],
+                ]}
+              />
+            </>
+          )}
         {isComplete && routeData.buffered && routeData.buffered.geometry && (
           <Polygon
             pathOptions={greenOptions}
