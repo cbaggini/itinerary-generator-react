@@ -7,7 +7,7 @@ const baseURL =
     ? "https://itinerary-generator-node.nw.r.appspot.com/"
     : "http://localhost:8080/";
 
-const RouteInfo = ({ allData, routeData, form, poiDetails }) => {
+const RouteInfo = ({ allData, routeData, form, poiDetails, resetTrip }) => {
   const userObject = useContext(myContext);
 
   const saveTrip = () => {
@@ -71,7 +71,7 @@ const RouteInfo = ({ allData, routeData, form, poiDetails }) => {
             },
           }}
         >
-          <button type="button" id="newSearch">
+          <button type="button" id="newSearch" onClick={resetTrip}>
             New itinerary
           </button>
         </Link>

@@ -37,6 +37,20 @@ const Map = ({
       ? "https://itinerary-generator-node.nw.r.appspot.com/"
       : "http://localhost:8080/";
 
+  const resetTrip = () => {
+    setIsLoaded(false);
+    setForm({
+      from: "",
+      to: "",
+      buffer: "",
+      categories: [],
+      timeInterval: "",
+    });
+    setAllData({ dataFrom: {}, dataTo: {} });
+    setRouteData({});
+    setPoiDetails([]);
+  };
+
   useEffect(() => {
     if (
       allData.dataFrom.features &&
@@ -112,6 +126,7 @@ const Map = ({
           routeData={routeData}
           form={form}
           poiDetails={poiDetails}
+          resetTrip={resetTrip}
         />
       )}
       <MapContainer center={[56, -1]} zoom={5} scrollWheelZoom={false}>
