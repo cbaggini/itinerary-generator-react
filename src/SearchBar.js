@@ -89,72 +89,89 @@ const SearchBar = ({ allData, setAllData, setIsLoaded, form, setForm }) => {
   };
 
   return (
-    <div className="searchBar">
-      <h1>Roadtrip itinerary generator</h1>
-      <label htmlFor="from">Where are you leaving from?</label>
-      <input
-        id="from"
-        type="text"
-        defaultValue={form.from}
-        ref={from}
-        placeholder="from"
-      ></input>
-      <label htmlFor="to">Where are you going to?</label>
-      <input
-        id="to"
-        type="text"
-        defaultValue={form.to}
-        ref={whereTo}
-        placeholder="to"
-      ></input>
-      <div className="buffer">
-        <label htmlFor="buffer">
-          How many kilometers do you want to deviate from your route ? (between
-          1 and 30)
+    <div class="central-container">
+        <div id="branding">
+          <h1>RoadTrip <span>itinerary generator</span></h1>
+          <div id="logo"></div>
+        </div>
+        <div className="searchBar">
+          <form>
+            <div class="searchBar-top">
+              <div class="input-row">
+                <label htmlFor="from">Where are you leaving from?</label>
+                <input
+                  id="from"
+                  type="text"
+                  defaultValue={form.from}
+                  ref={from}
+                  placeholder="from"
+                ></input>
+              </div><br />
+              <div class="input-row"><label htmlFor="to">Where are you going to?</label>
+                <input
+                  id="to"
+                  type="text"
+                  defaultValue={form.to}
+                  ref={whereTo}
+                  placeholder="to"
+                ></input>
+              </div><br />
+          <div className="buffer">
+          <div class="input-row"><label htmlFor="buffer">
+              How many kilometers do you want to deviate from your route ? (between
+              1 and 30)
         </label>
-        <input
-          defaultValue={form.buffer}
-          type="number"
-          id="buffer"
-          name="buffer"
-          min="1"
-          max="30"
-          ref={buffer}
-        />
-      </div>
-      <div>What type(s) of attractions would you like to visit?</div>
-      <div className="buttons">
-        {categoryList.map((el) => (
-          <button
-            type="button"
-            className={
-              form.categories.includes(el)
-                ? "attraction green"
-                : "attraction grey"
-            }
-            key={el}
-            value={el}
-            onClick={toggleCategories}
-          >
-            {el.charAt(0).toUpperCase() + el.slice(1)}
-          </button>
-        ))}
-      </div>
-      <div>
-        <label htmlFor="time">How often would you like to stop?</label>
-        <select id="time" defaultValue={form.timeInterval} ref={timeInterval}>
-          <option value=""></option>
-          {timeIntervals.map((el) => (
-            <option key={el} value={el}>
-              {el / 3600} hours
-            </option>
-          ))}
-        </select>
-      </div>
-      <button type="button" id="search" onClick={search}>
-        Calculate your itinerary
+            <input
+              defaultValue={form.buffer}
+              type="number"
+              id="buffer"
+              name="buffer"
+              min="1"
+              max="30"
+              ref={buffer}
+            />
+            </div>
+          </div><br />
+          <div>What type(s) of attractions would you like to visit?</div>
+          <div className="buttons">
+            {categoryList.map((el) => (
+              <button
+                type="button"
+                class="select"
+                className={
+                  form.categories.includes(el)
+                    ? "attraction active"
+                    : "attraction unactive"
+                }
+                key={el}
+                value={el}
+                onClick={toggleCategories}
+              >
+                {el.charAt(0).toUpperCase() + el.slice(1)}
+              </button>
+            ))}
+          </div><br />
+          <div>
+          <div class="input-row"><label htmlFor="time">How often would you like to stop?</label>
+            <select id="time" defaultValue={form.timeInterval} ref={timeInterval}>
+              <option value=""></option>
+              {timeIntervals.map((el) => (
+                <option key={el} value={el}>
+                  {el / 3600} hours
+                </option>
+              ))}
+            </select>
+            </div>
+          </div><br />
+          </div>
+          <div class="actions-container">
+          <button type="button" id="search" onClick={search}>
+            Calculate your itinerary
       </button>
-    </div>
+      </div>
+      </form>
+        </div>
+      </div>
   );
 };
 

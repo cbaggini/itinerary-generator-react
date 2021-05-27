@@ -9,7 +9,7 @@ const baseURL =
 export const myContext = createContext({});
 export default function Context(props) {
   const [userObject, setUserObject] = useState({});
-
+  console.log(userObject)
   useEffect(() => {
     axios.get(baseURL + "getuser", { withCredentials: true }).then((res) => {
       if (res.data) {

@@ -1,9 +1,61 @@
-.App {
-  height: 90vh;
+/* reset */
+label {
+  margin: 0;
 }
+
+/* colors
+orange light: #fd7d5d
+orange dark: #fd552f 
+
+
+
+*/
+
+
+/********************************************************  App.js  */
+.App {
+  background-image: url('imgs/bkg.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 100%;
+}
+
+
+#root {
+  height: 100%;
+}
+
+
+/******************************************************************************/
+
+/********************************************************  NavBar.js  */
+
+.navBarWrapper {
+  background: rgb(253,85,47);
+  background: linear-gradient(48deg, rgba(253,85,47,1) 0%, rgba(253,125,93,1) 100%);
+}
+
+.navBarWrapper .navBar {
+  /* width: 100%; */
+  list-style: none;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.navBarWrapper .navBar li a {
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 0 15px;
+  line-height: 50px;
+}
+
+/******************************************************************************/
 
 .leaflet-container {
   height: 500px;
+  border: solid 5px #fd552f;
 }
 
 .loading {
@@ -11,108 +63,174 @@
   color: darkblue;
 }
 
-.searchBar {
+
+
+/********************************************************  SearchBar.js  */
+.central-container {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  margin: 3rem;
+}
+
+.central-container #branding {
+  background: rgb(253,85,47);
+  background: linear-gradient(48deg, rgba(253,85,47,1) 0%, rgba(253,125,93,1) 100%);
   padding: 1rem;
-  padding-bottom: 2rem;
+  width: 40%;
+  border-radius: 5px 0 0 5px;
+}
+
+.central-container #branding h1 {
   text-align: center;
+  color: white;
+}
+
+.central-container #branding #logo {
+  background-image: url('imgs/logo.png');
+  background-position: center;
+  height: 400px;
+  width: 400px;
+  margin: 0 auto;
+}
+
+.central-container .searchBar {
+  background-color: white;
+  border-radius: 0 5px 5px 0;
+  padding: 1rem;
+  display: flex;
   align-items: center;
-  height: 85vh;
 }
 
-.searchBar::before {
-  content: "";
-  background: url("./bkg.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  opacity: 0.5;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
-  z-index: -1;
+.central-container .searchBar .searchBar-top {
+  
 }
 
-input {
-  margin: 1rem;
-  max-width: 200px;
+.searchBar-top input[type="text"] {
+  border: solid 2px #fd552f;
 }
+
+.central-container .searchBar .searchBar-top .input-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.central-container .searchBar .searchBar-top .input-row label {
+  flex: 3;
+}
+
+.central-container .searchBar .searchBar-top .input-row input,
+.central-container .searchBar .searchBar-top .input-row select {
+  flex: 1;
+}
+
+.central-container .actions-container {
+  /* background-color: white; */
+  display: flex;
+  justify-content: center;
+}
+
 
 #buffer {
-  max-width: 100px;
+  /* max-width: 100px; */
   margin: 0;
 }
 
-.buffer {
-  margin: 1rem;
-}
-
-label {
-  margin-right: 20px;
-}
-
 .buttons {
-  display: flex;
-  flex-wrap: wrap;
+  display: flex; 
+ flex-wrap: wrap;
   justify-content: center;
 }
 
 button {
-  margin: 1rem;
+  margin: 10px 5px;
+  text-transform: uppercase;
 }
+
+button .select {}
 
 .attraction {
-  background-color: gray;
-  padding: 0.5rem;
-  border: 1px solid rgb(51, 49, 49);
-  border-radius: 5px;
+  border: solid 2px #fd552f;
+  color:#fd552f;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
-.green {
-  background-color: green;
+.attraction:hover{ 
+  border: solid 2px #fd552f;
+  background-color: #fd552f;
+  color: white;
+  transition: all 0.3s;
 }
 
-.grey {
-  background-color: grey;
+.active {
+  border: solid 2px #fd552f;
+  background-color: #fd552f;
+  color: white;
+}
+
+#time, #buffer {
+  border: solid 2px #fd552f;
+  background-color: white;
+}
+
+.unactive {
+
 }
 
 #search,
 #newSearch,
 #save {
-  max-width: 150px;
-  background-color: lightblue;
-  padding: 0.5rem;
-  border: 1px solid darkblue;
-  border-radius: 5px;
+  cursor: pointer;
+  border: solid 2px #fd552f;
+  background-color: white;
+  color: #fd552f;
+  transition: all 0.2s;
 }
+
+#search:hover,
+#newSearch:hover,
+#save:hover {
+  border: solid 2px #fd552f;
+  background-color: #fd552f;
+  color: white;
+  transition: all 0.2s;
+}
+
+
+/******************************************************************************/
 
 .title {
   margin-top: 0;
 }
 
 .routeInfo {
-  display: flex;
-  flex-direction: column;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  margin-left: 0;
-  margin-right: 0;
-  padding: 1rem;
-  background-color: #dcedff;
+  background-color: white;
+  text-align: center;
 }
+
+.routeInfo ul { list-style: none; }
 
 .info {
   font-size: 1.2em;
 }
 
 footer {
+  position: absolute;
   padding: 1rem;
   font-size: 0.8em;
-  background-color: lightgreen;
+  background: rgb(253,85,47);
+  background: linear-gradient(48deg, rgba(253,85,47,1) 0%, rgba(253,125,93,1) 100%);
+  color: white;
   bottom: 0;
   width: 100%;
+}
+
+footer a {
+  color: white;
+  text-decoration: underline;
+  font-weight: bold;
 }
 
 .tripContainer {
@@ -159,35 +277,6 @@ h2 {
   text-align: center;
 }
 
-.navBarWrapper {
-  width: 100vw;
-  height: 50px;
-  background-color: black;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.navBar {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  width: 100%;
-  justify-content: space-evenly;
-}
-
-.navBar li {
-  list-style: none;
-  cursor: pointer;
-}
-
-.navBar a {
-  color: white;
-  text-decoration: none;
-}
-
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;1,100;1,200;1,300&display=swap");
 .googleContainer {
   display: flex;
   align-items: center;
