@@ -27,7 +27,6 @@ const Map = ({
   saved,
 }) => {
   const [isComplete, setIsComplete] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
   console.log(poiDetails);
   console.log(routeData);
   console.log(saved);
@@ -128,11 +127,6 @@ const Map = ({
   return (
     <>
       {isComplete && routeData.selectedPoisArray && (
-        <div className="menu__toggler" onClick={() => setIsVisible(!isVisible)}>
-          <span></span>
-        </div>
-      )}
-      {isComplete && routeData.selectedPoisArray && isVisible && (
         <RouteInfo
           allData={allData}
           routeData={routeData}

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { myContext } from "./Context";
 
@@ -9,6 +9,7 @@ const baseURL =
 
 const RouteInfo = ({ allData, routeData, form, poiDetails, resetTrip }) => {
   const userObject = useContext(myContext);
+  const [isVisible, setIsVisible] = useState(true);
 
   const saveTrip = () => {
     fetch(`${baseURL}trips`, {
@@ -43,7 +44,10 @@ const RouteInfo = ({ allData, routeData, form, poiDetails, resetTrip }) => {
   };
   return (
     <>
-      <div className="routeInfo">
+      <div className="menu__toggler" onClick={() => setIsVisible(!isVisible)}>
+        <span></span>
+      </div>
+      <div className={isVisible ? "routeInfo" : "routeInfo active"}>
         <div className="routeInfoContent">
           <h1 className="title">Your suggested itinerary</h1>
           <p className="info">
