@@ -42,49 +42,48 @@ const RouteInfo = ({ allData, routeData, form, poiDetails, resetTrip }) => {
       });
   };
   return (
-    <div className="routeInfo">
-      <h1 className="title">Your suggested itinerary</h1>
-      <p className="info">
-        From {allData.dataFrom.features[0].properties.name} to{" "}
-        {allData.dataTo.features[0].properties.name} -{" "}
-        {Math.round(
-          routeData.updatedRoute.features[0].properties.summary.distance / 10
-        ) / 100}{" "}
-        km in approximately{" "}
-        {Math.round(
-          routeData.updatedRoute.features[0].properties.summary.duration / 3600
-        )}{" "}
-        hours, visiting:
-      </p>
-      <ul>
-        {routeData.selectedPoisArray.map((el) => (
-          <li key={el.id}>{el.properties.name}</li>
-        ))}
-      </ul>
-      <div>
-        <Link
-          to={{
-            pathname: "/",
-            state: {
-              reset: true,
-              saved: false,
-            },
-          }}
-        >
-          <button type="button" id="newSearch" onClick={resetTrip}>
-            New itinerary
-          </button>
-        </Link>
+    <>
+      <div className="routeInfo">
+        <div className="menu__toggler"><span></span></div>
+        <div className="routeInfoContent">
+          <h1 className="title">Your suggested itinerary</h1>
+          <p className="info">
+            From <span>{allData.dataFrom.features[0].properties.name}</span> to <span>{" "} {allData.dataTo.features[0].properties.name}</span>
+          </p>
+          <p className="infoDistance">{" "} {Math.round(routeData.updatedRoute.features[0].properties.summary.distance / 10) / 100}{" "} km</p>
+          <p className="infoTime">{" "} {Math.round(routeData.updatedRoute.features[0].properties.summary.duration / 3600)}{" "} hours</p>
+          <span>Visiting:</span>
+          <ul>
+            {routeData.selectedPoisArray.map((el) => (
+              <li key={el.id}>{el.properties.name}</li>
+            ))}
+          </ul>
+          <div>
+            <Link
+              to={{
+                pathname: "/",
+                state: {
+                  reset: true,
+                  saved: false,
+                },
+              }}
+            >
+              <button type="button" id="newSearch" onClick={resetTrip}>
+                New itinerary
+          </button><br/>
+            </Link>
 
-        {userObject.username ? (
-          <button type="button" id="save" onClick={saveTrip}>
-            Save your trip
-          </button>
-        ) : (
-          "You need to be logged in to save your trips!"
-        )}
+            {userObject.username ? (
+              <button type="button" id="save" onClick={saveTrip}>
+                Save your trip
+              </button>
+            ) : (
+              "You need to be logged in to save your trips!"
+            )}
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
