@@ -266,17 +266,25 @@ h1.title {
   overflow-x: visible;
 }
 
-.info {
+.info, .infoDistance, .infoTime {
   font-size: 1.2em;
+  margin-bottom: 0;
 }
 
+.infoTime {
+  border-bottom: 1px solid rgb(253, 85, 47);;
+}
+
+.infoVisiting {
+  font-weight: bold;
+}
 
 .routeInfo.active {
   left: 0;
 }
 
 .routeInfo ul {
-  list-style: none;
+  list-style: decimal;
   padding-left: 0;
 }
 

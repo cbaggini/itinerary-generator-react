@@ -52,8 +52,8 @@ const RouteInfo = ({ allData, routeData, form, poiDetails, resetTrip }) => {
           </p>
           <p className="infoDistance">{" "} {Math.round(routeData.updatedRoute.features[0].properties.summary.distance / 10) / 100}{" "} km</p>
           <p className="infoTime">{" "} {Math.round(routeData.updatedRoute.features[0].properties.summary.duration / 3600)}{" "} hours</p>
-          <span>Visiting:</span>
-          <ul>
+          <span className="infoVisiting">Visiting:</span>
+          <ul className="infoPlaces">
             {routeData.selectedPoisArray.map((el) => (
               <li key={el.id}>{el.properties.name}</li>
             ))}
