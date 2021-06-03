@@ -44,14 +44,28 @@ const RouteInfo = ({ allData, routeData, form, poiDetails, resetTrip }) => {
   return (
     <>
       <div className="routeInfo">
-        <div className="menu__toggler"><span></span></div>
         <div className="routeInfoContent">
           <h1 className="title">Your suggested itinerary</h1>
           <p className="info">
-            From <span>{allData.dataFrom.features[0].properties.name}</span> to <span>{" "} {allData.dataTo.features[0].properties.name}</span>
+            From <span>{allData.dataFrom.features[0].properties.name}</span> to{" "}
+            <span> {allData.dataTo.features[0].properties.name}</span>
           </p>
-          <p className="infoDistance">{" "} {Math.round(routeData.updatedRoute.features[0].properties.summary.distance / 10) / 100}{" "} km</p>
-          <p className="infoTime">{" "} {Math.round(routeData.updatedRoute.features[0].properties.summary.duration / 3600)}{" "} hours</p>
+          <p className="infoDistance">
+            {" "}
+            {Math.round(
+              routeData.updatedRoute.features[0].properties.summary.distance /
+                10
+            ) / 100}{" "}
+            km
+          </p>
+          <p className="infoTime">
+            {" "}
+            {Math.round(
+              routeData.updatedRoute.features[0].properties.summary.duration /
+                3600
+            )}{" "}
+            hours
+          </p>
           <span className="infoVisiting">Visiting:</span>
           <ul className="infoPlaces">
             {routeData.selectedPoisArray.map((el) => (
@@ -70,7 +84,8 @@ const RouteInfo = ({ allData, routeData, form, poiDetails, resetTrip }) => {
             >
               <button type="button" id="newSearch" onClick={resetTrip}>
                 New itinerary
-          </button><br/>
+              </button>
+              <br />
             </Link>
 
             {userObject.username ? (
@@ -78,7 +93,12 @@ const RouteInfo = ({ allData, routeData, form, poiDetails, resetTrip }) => {
                 Save your trip
               </button>
             ) : (
-              "You need to be logged in to save your trips!"
+              <>
+                <button type="button" id="save_logged_out" onClick={saveTrip}>
+                  Save your trip
+                </button>
+                <p>You need to be logged in to save your trip</p>
+              </>
             )}
           </div>
         </div>

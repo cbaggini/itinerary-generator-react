@@ -1,6 +1,6 @@
 import React from "react";
 
-const PoiPopup = ({ poi }) => {
+const PoiPopup = ({ poi, updateTrip }) => {
   const wikipedia_extracts = poi.wikipedia_extracts
     ? poi.wikipedia_extracts.html
     : "No description available";
@@ -16,6 +16,9 @@ const PoiPopup = ({ poi }) => {
       <a href={poi.wikipedia} target="_blank" rel="noreferrer">
         See more on Wikipedia
       </a>
+      {/* <button onClick={() => updateTrip(poi.xid)}>
+        {poi.excluded ? "Include in itinerary" : "Exclude from itinerary"}
+      </button> */}
     </>
   );
 };

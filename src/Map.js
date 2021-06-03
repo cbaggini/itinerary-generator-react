@@ -7,6 +7,7 @@ import {
   CircleMarker,
   Popup,
   Polygon,
+  ZoomControl,
 } from "react-leaflet";
 import PoiPopup from "./PoiPopup";
 import AutoZoom from "./AutoZoom";
@@ -26,7 +27,7 @@ const Map = ({
   saved,
 }) => {
   const [isComplete, setIsComplete] = useState(false);
-  //const [isSaved, setIsSaved] = useState(saved);
+  const [isVisible, setIsVisible] = useState(true);
   console.log(poiDetails);
   console.log(routeData);
   console.log(saved);
@@ -49,6 +50,12 @@ const Map = ({
     setAllData({ dataFrom: {}, dataTo: {} });
     setRouteData({});
     setPoiDetails([]);
+  };
+
+  const updateTrip = (xid) => {
+    console.log(xid);
+    // TODO: use xid to add/remove excluded key to poiDetails and routeData.pois, then calculate itinerary with updated pois object
+    // In backend, check if req.body has pois field and do not do extra query?
   };
 
   useEffect(() => {
@@ -121,6 +128,11 @@ const Map = ({
   return (
     <>
       {isComplete && routeData.selectedPoisArray && (
+        <div className="menu__toggler" onClick={() => setIsVisible(!isVisible)}>
+          <span></span>
+        </div>
+      )}
+      {isComplete && routeData.selectedPoisArray && isVisible && (
         <RouteInfo
           allData={allData}
           routeData={routeData}
@@ -129,7 +141,13 @@ const Map = ({
           resetTrip={resetTrip}
         />
       )}
-      <MapContainer center={[56, -1]} zoom={5} scrollWheelZoom={false}>
+      <MapContainer
+        center={[56, -1]}
+        zoom={5}
+        scrollWheelZoom={false}
+        zoomControl={false}
+      >
+        <ZoomControl position="topright" />
         {isComplete ? (
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -198,7 +216,7 @@ const Map = ({
               center={[el.point.lat, el.point.lon]}
             >
               <Popup>
-                <PoiPopup poi={el} />
+                <PoiPopup poi={el} updateTrip={updateTrip} />
               </Popup>
             </CircleMarker>
           ))}
