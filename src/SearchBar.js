@@ -89,11 +89,15 @@ const SearchBar = ({ allData, setAllData, setIsLoaded, form, setForm }) => {
   };
 
   return (
-    <div class="central-container">
-        <div id="branding">
-          <h1>RoadTrip <span>itinerary generator</span></h1>
-          <div id="logo"></div>
+    <div className="searchContainer">
+      <div className="central-container">
+        <div className="brandingContainer">
+          <div className="branding">
+            <h1>RoadTrip <span>itinerary generator</span></h1>
+            <div className="logo"></div>
+          </div>
         </div>
+
         <div className="searchBar">
           <form>
             <div class="searchBar-top">
@@ -116,62 +120,63 @@ const SearchBar = ({ allData, setAllData, setIsLoaded, form, setForm }) => {
                   placeholder="to"
                 ></input>
               </div><br />
-          <div className="buffer">
-          <div class="input-row"><label htmlFor="buffer">
-              How many kilometers do you want to deviate from your route ? (between
-              1 and 30)
+              <div className="buffer">
+                <div class="input-row"><label htmlFor="buffer">
+                  How many kilometers do you want to deviate from your route ? (between
+                  1 and 30)
         </label>
-            <input
-              defaultValue={form.buffer}
-              type="number"
-              id="buffer"
-              name="buffer"
-              min="1"
-              max="30"
-              ref={buffer}
-            />
+                  <input
+                    defaultValue={form.buffer}
+                    type="number"
+                    id="buffer"
+                    name="buffer"
+                    min="1"
+                    max="30"
+                    ref={buffer}
+                  />
+                </div>
+              </div><br />
+              <div>What type(s) of attractions would you like to visit?</div>
+              <div className="buttons">
+                {categoryList.map((el) => (
+                  <button
+                    type="button"
+                    class="select"
+                    className={
+                      form.categories.includes(el)
+                        ? "attraction active"
+                        : "attraction unactive"
+                    }
+                    key={el}
+                    value={el}
+                    onClick={toggleCategories}
+                  >
+                    {el.charAt(0).toUpperCase() + el.slice(1)}
+                  </button>
+                ))}
+              </div><br />
+              <div>
+                <div class="input-row"><label htmlFor="time">How often would you like to stop?</label>
+                  <select id="time" defaultValue={form.timeInterval} ref={timeInterval}>
+                    <option value=""></option>
+                    {timeIntervals.map((el) => (
+                      <option key={el} value={el}>
+                        {el / 3600} hours
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div><br />
             </div>
-          </div><br />
-          <div>What type(s) of attractions would you like to visit?</div>
-          <div className="buttons">
-            {categoryList.map((el) => (
-              <button
-                type="button"
-                class="select"
-                className={
-                  form.categories.includes(el)
-                    ? "attraction active"
-                    : "attraction unactive"
-                }
-                key={el}
-                value={el}
-                onClick={toggleCategories}
-              >
-                {el.charAt(0).toUpperCase() + el.slice(1)}
-              </button>
-            ))}
-          </div><br />
-          <div>
-          <div class="input-row"><label htmlFor="time">How often would you like to stop?</label>
-            <select id="time" defaultValue={form.timeInterval} ref={timeInterval}>
-              <option value=""></option>
-              {timeIntervals.map((el) => (
-                <option key={el} value={el}>
-                  {el / 3600} hours
-                </option>
-              ))}
-            </select>
-            </div>
-          </div><br />
-          </div>
-          <div class="actions-container">
-          <button type="button" id="search" onClick={search}>
-            Calculate your itinerary
+            <div class="actions-container">
+              <button type="button" id="search" onClick={search}>
+                Calculate your itinerary
       </button>
-      </div>
-      </form>
+            </div>
+          </form>
         </div>
       </div>
+    </div>
   );
 };
 

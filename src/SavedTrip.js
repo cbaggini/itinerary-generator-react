@@ -43,7 +43,7 @@ const SavedTrip = ({
           },
         }}
       >
-        <button className="btn btn-primary">See trip</button>
+        <button className="button">See trip</button>
       </Link>
       {profile && (
         <>

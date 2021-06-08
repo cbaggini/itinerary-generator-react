@@ -4,33 +4,56 @@ label {
 }
 
 /* colors
-orange light: #fd7d5d
-orange dark: #fd552f 
-
-
-
+orange light: #FD552F - 253, 85, 47
+orange dark: #FD7D5D - 253, 125, 93
+blue: #2624B3 - 38, 36, 179
 */
 
 
 /********************************************************  App.js  */
+#root {
+  max-width: 100%;
+  overflow-x: hidden;
+
+}
+
 .App {
   background-image: url('imgs/bkg.jpg');
   background-size: cover;
   background-position: center;
-  height: 100%;
 }
 
+/******************************************************************************/
 
-#root {
-  height: 100%;
+
+/********************************************************  Loading.js  */
+.loadingPage {
+  background-color: black;
+  height: calc(100vh - 142px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+.loadingPop {
+  border: solid 3px rgb(253, 85, 47);
+  border-radius: 5px;
+  padding: 1rem;
+  background-color: white;
+}
+
+.loading {
+  text-align: center;
+  color: darkblue;
+}
 
 /******************************************************************************/
 
 /********************************************************  NavBar.js  */
 
 .navBarWrapper {
+  position: relative;
+  z-index: 150;
   background: rgb(253, 85, 47);
   background: linear-gradient(48deg, rgba(253, 85, 47, 1) 0%, rgba(253, 125, 93, 1) 100%);
 }
@@ -39,6 +62,7 @@ orange dark: #fd552f
   /* width: 100%; */
   list-style: none;
   margin: 0;
+  padding: 0;
   display: flex;
   justify-content: center;
 }
@@ -51,88 +75,67 @@ orange dark: #fd552f
   line-height: 50px;
 }
 
-.menu__toggler {
-  position: absolute;
-  top: 50%;
-  right: 50px;
-  z-index: 999;
-  height: 28px;
-  width: 28px;
-  outline: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-.menu__toggler span,
-.menu__toggler span::before,
-.menu__toggler span::after {
-  position: absolute;
-  content: "";
-  width: 28px;
-  height: 2.5px;
-  background: rgb(253, 85, 47);
-  border-radius: 20px;
-  transition: 500ms cubic-bezier(0.77, 0, 0.175, 1);
-}
-.menu__toggler span::before {
-  top: -8px;
-}
-.menu__toggler span::after {
-  top: 8px;
-}
-.menu__toggler.active > span {
-  background: transparent;
-}
-.menu__toggler.active > span::before, .menu__toggler.active > span::after {
-  background: #005c9c;
-  top: 0px;
-}
-.menu__toggler.active > span::before {
-  transform: rotate(-225deg);
-}
-.menu__toggler.active > span::after {
-  transform: rotate(225deg);
-}
-
 /******************************************************************************/
 
+/********************************************************  Map.js  */
+
+.mapWrapper {
+  height: calc(100vh - 142px);
+}
+
 .leaflet-container {
-  /* height: 500px; */
-  height: 90%;
+  height: 100%;
+  /* height: 90%; */
   /* border: solid 5px #fd552f; */
   z-index: 0;
 }
 
-.loading {
-  text-align: center;
-  color: darkblue;
+.leaflet-popup-content {
+  max-width: 240px;
+  max-height: 240px;
+  overflow-y: scroll;
 }
 
+/******************************************************************************/
 
 
 /********************************************************  SearchBar.js  */
+.searchContainer {
+  height: calc(100vh - 189px);
+}
+
 .central-container {
   display: flex;
   justify-content: center;
   margin: 3rem;
 }
 
-.central-container #branding {
-  background: rgb(253, 85, 47);
-  background: linear-gradient(48deg, rgba(253, 85, 47, 1) 0%, rgba(253, 125, 93, 1) 100%);
-  padding: 1rem;
+.central-container .brandingContainer {
+  background-color: white;
   width: 40%;
+  border-radius: 5px;
+}
+
+.central-container .branding {
+  background: #FD552F;
+  background: linear-gradient(48deg, rgba(253, 85, 47, 1) 0%, rgba(253, 125, 93, 1) 100%);
+  -webkit-clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+  clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+  padding: 1rem;
+
   border-radius: 5px 0 0 5px;
 }
 
-.central-container #branding h1 {
+.central-container .branding h1 {
+  display: none;
   text-align: center;
   color: white;
 }
 
-.central-container #branding #logo {
-  background-image: url('imgs/logo.png');
+.central-container .branding .logo {
+  background-image: url('imgs/logo_v.png');
   background-position: center;
+  background-repeat: no-repeat;
   height: 400px;
   width: 400px;
   margin: 0 auto;
@@ -207,20 +210,13 @@ button .select {}
   transition: all 0.3s;
 }
 
-.active {
-  border: solid 2px #fd552f;
-  background-color: #fd552f;
-  color: white;
-}
-
 #time,
 #buffer {
   border: solid 2px #fd552f;
   background-color: white;
 }
 
-.unactive {}
-
+.btn .btn-primary,
 #search,
 #newSearch,
 #save {
@@ -233,7 +229,8 @@ button .select {}
 
 #search:hover,
 #newSearch:hover,
-#save:hover {
+#save:hover,
+.attraction.active {
   border: solid 2px #fd552f;
   background-color: #fd552f;
   color: white;
@@ -244,6 +241,7 @@ button .select {}
 /******************************************************************************/
 
 h1.title {
+
   margin-top: 0;
   font-size: 2rem;
 }
@@ -251,36 +249,44 @@ h1.title {
 .routeInfo {
   position: absolute;
   /* left: -30%; */
-  z-index: 998;
+  z-index: 100;
   color: #005c9c;
   background: rgba(250, 250, 250, 0.7);
-  -webkit-clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
-          clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
-  width: 30%;
-  height: 85%;
-  padding: 65px 100px 65px 50px;
+  /* -webkit-clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+          clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%); */
+  width: 40%;
+  /* height: 100%; */
+  height: calc(100vh - 142px);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  transition: 300ms left cubic-bezier(0.77, 0, 0.175, 1);
-  overflow-x: visible;
+  transition: 0.5s;
 }
 
-.info, .infoDistance, .infoTime {
+.routeInfo.active {
+  transform: translate(-100%);
+  transition: 0.5s;
+  z-index: 1 !important;
+}
+
+.routeInfoContent {
+  padding: 65px 100px 65px 50px;
+}
+
+.info,
+.infoDistance,
+.infoTime {
   font-size: 1.2em;
   margin-bottom: 0;
 }
 
 .infoTime {
-  border-bottom: 1px solid rgb(253, 85, 47);;
+  border-bottom: 1px solid rgb(253, 85, 47);
+  ;
 }
 
 .infoVisiting {
   font-weight: bold;
-}
-
-.routeInfo.active {
-  left: 0;
 }
 
 .routeInfo ul {
@@ -288,13 +294,93 @@ h1.title {
   padding-left: 0;
 }
 
+.menu__toggler {
+  background: rgba(250, 250, 250, 0.9);
+  border-top: 1px solid rgba(253, 85, 47, 0.5);
+  border-right: 1px solid rgba(253, 85, 47, 0.5);
+  border-bottom: 1px solid rgba(253, 85, 47, 0.5);
+  position: absolute;
+  /* top: 50%; */
+  right: -34px;
+  z-index: 100;
+  height: 34px;
+  width: 34px;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-radius: 0 3px 3px 0;
+}
+
+.menu__toggler span
+
+/* .menu__toggler span::before,
+.menu__toggler span::after */
+  {
+  position: absolute;
+}
+
+.chevron::before {
+  border-style: solid;
+  border-width: 0.25em 0.25em 0 0;
+  content: '';
+  display: inline-block;
+  height: 7px;
+  left: 10px;
+  position: relative;
+  top: 4px;
+  transform: rotate(-45deg);
+  vertical-align: top;
+  width: 0.45em;
+}
+
+.chevron.right:before {
+  left: 8px;
+  transform: rotate(45deg);
+}
+
+.chevron.bottom:before {
+  top: 0;
+  transform: rotate(135deg);
+}
+
+.chevron.left:before {
+  left: 10px;
+  transform: rotate(-135deg);
+}
+
+/*
+.menu__toggler span::before {
+  top: -8px;
+  transform: rotate(45deg);
+}
+
+.menu__toggler span::after {
+  top: 8px;
+  transform: rotate(145deg);
+}
+
+.menu__toggler.active>span {
+  background: transparent;
+}
+*/
+
+.menu__toggler.active>span::before {
+  transform: rotate(-225deg);
+}
+
+.menu__toggler.active>span::after {
+  transform: rotate(225deg);
+}
+
 
 /********************************************************  Footer.js  */
 footer {
-  position: absolute;
+
+  /* display: none; */
   padding: 1rem;
   font-size: 0.8em;
-  background: rgb(253, 85, 47);
+  background: #FD552F;
   background: linear-gradient(48deg, rgba(253, 85, 47, 1) 0%, rgba(253, 125, 93, 1) 100%);
   color: white;
   bottom: 0;
@@ -311,31 +397,30 @@ footer a {
 /******************************************************************************/
 
 .tripContainer {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-flow: column;
+  grid-auto-flow: row;
+  background-color: white;
+  height: 100%;
 }
 
 .trip {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
   text-align: center;
-  max-width: min-content;
   margin: 1rem;
+  border-radius: 5px;
+  border: solid 3px #FD552F;
+}
+
+.trip h3 {
+  margin: 0;
+  padding: 1rem;
 }
 
 .popupImg {
   height: 130px;
   width: auto;
   margin: auto;
-}
-
-.leaflet-popup-content {
-  max-width: 240px;
-  max-height: 240px;
-  overflow-y: scroll;
 }
 
 .editPrivacy {
@@ -384,6 +469,7 @@ h2 {
 
 .loginPage {
   width: 100vw;
+  height: calc(100vh - 142px);
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -391,10 +477,92 @@ h2 {
 }
 
 .loginForm {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  max-width: 600px;
-  flex-direction: column;
-  min-width: 40vw;
+  background-color: white;
+  text-align: center;
+  padding: 15px;
+
+
 }
+
+
+/*     MEDIA QUERIES    */
+@media (max-width: 991px) {
+  .central-container {
+    flex-flow: column;
+  }
+
+  .central-container .brandingContainer {
+    width: 100%;
+    height: 150px;
+  }
+
+  .central-container .brandingContainer .branding {
+    clip-path: none;
+  }
+
+  .central-container .branding .logo {
+    background-image: url('imgs/logo_h.png') !important;
+    background-repeat: no-repeat;
+    background-position: top;
+    width: 100%;
+    height: 125px;
+  }
+
+  .central-container .searchBar {
+    justify-content: center;
+  }
+
+  .routeInfo {
+    width: 45%;
+  }
+
+  .tripContainer {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 767px) {
+  .routeInfo {
+    position: absolute;
+    z-index: 100;
+    color: #005c9c;
+    background: rgba(250, 250, 250, 0.7);
+    width: 100%;
+    height: 75%;
+    top: 50px;
+    transition: 0.5s;
+  }
+
+  .tripContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .menu__toggler {
+    bottom: -34px;
+    right: 45%;
+    border-radius: 0 0 3px 3px;
+    padding-left: 5px;
+    border-top: none;
+    border-left: 1px solid rgba(253, 85, 47, 0.5);
+    border-right: 1px solid rgba(253, 85, 47, 0.5);
+    border-bottom: 1px solid rgba(253, 85, 47, 0.5);
+  }
+
+  .routeInfo.active {
+    transform: translateY(-100%);
+    transition: 0.5s;
+  }
+
+  .chevron.left:before {
+    left: 10px;
+    transform: rotate(-45deg);
+  }
+
+  .chevron.right:before {
+    left: 8px;
+    transform: rotate(135deg);
+  }
+
+}
+
+@media (max-width: 767px) {}

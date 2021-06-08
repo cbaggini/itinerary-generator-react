@@ -135,6 +135,7 @@ const Map = ({
           resetTrip={resetTrip}
         />
       )}
+      <div className="mapWrapper">
       <MapContainer
         center={[56, -1]}
         zoom={5}
@@ -215,6 +216,7 @@ const Map = ({
             </CircleMarker>
           ))}
       </MapContainer>
+      </div>
     </>
   );
 };
