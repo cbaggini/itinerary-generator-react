@@ -44,12 +44,11 @@ const RouteInfo = ({ allData, routeData, form, poiDetails, resetTrip }) => {
   };
   return (
     <>
-    
       <div className={isVisible ? "routeInfo" : "routeInfo active"}>
-      <div className="menu__toggler" onClick={() => setIsVisible(!isVisible)}>
-        <span className={isVisible ? "chevron left" : "chevron right"}></span>
-      </div>
-    
+        <div className="menu__toggler" onClick={() => setIsVisible(!isVisible)}>
+          <span className={isVisible ? "chevron left" : "chevron right"}></span>
+        </div>
+
         <div className="routeInfoContent">
           <h1 className="title">Your suggested itinerary</h1>
           <p className="info">
@@ -100,7 +99,7 @@ const RouteInfo = ({ allData, routeData, form, poiDetails, resetTrip }) => {
               </button>
             ) : (
               <>
-                <button type="button" id="save_logged_out" onClick={saveTrip}>
+                <button type="button" id="save_logged_out">
                   Save your trip
                 </button>
                 <p>You need to be logged in to save your trip</p>
@@ -108,7 +107,6 @@ const RouteInfo = ({ allData, routeData, form, poiDetails, resetTrip }) => {
             )}
           </div>
         </div>
-        
       </div>
     </>
   );
