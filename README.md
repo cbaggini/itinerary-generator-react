@@ -23,7 +23,7 @@
 
 ## About The Project
 
-<p>This React app lets the user choose a start and an end point for their trip, as well as selecting various parameters regarding their trip (type of attractions they'd like to visit, how much they're prepared to deviate from the original route). The app will then return a map of the route with the suggested attractions and some basic information regarding the initerary (total distance and time, list of suggested attractions). </p>
+<p>This React app lets the user choose a start and an end point for their trip, as well as selecting various parameters regarding their trip (type of attractions they'd like to visit, how much they're prepared to deviate from the original route). The app will then return a map of the route with the suggested attractions and some basic information regarding the itinerary (total distance and time, list of suggested attractions). </p>
 
 <p>Demo at https://itinerary-generator.netlify.app/</p>
 
